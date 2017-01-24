@@ -1,0 +1,15 @@
+﻿  main.cpp
+c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(1001): warning C4005: 'M_PI': macro redefinition
+  z:\profiledata\documents\cg2\sdl2-2.0.5\include\sdl_stdinc.h(440): note: see previous definition of 'M_PI'
+z:\profiledata\documents\visual studio 2015\projects\consoleapplication1\consoleapplication1\main.cpp(54): warning C4297: 'SDL_main': function assumed not to throw an exception but does
+  z:\profiledata\documents\visual studio 2015\projects\consoleapplication1\consoleapplication1\main.cpp(54): note: __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+z:\profiledata\documents\visual studio 2015\projects\consoleapplication1\consoleapplication1\main.cpp(66): warning C4297: 'SDL_main': function assumed not to throw an exception but does
+  z:\profiledata\documents\visual studio 2015\projects\consoleapplication1\consoleapplication1\main.cpp(66): note: __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+z:\profiledata\documents\cg2\libs\math3d.h(836): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  z:\profiledata\documents\cg2\libs\math3d.h(1011): note: see reference to function template instantiation 'T normalize<vec3>(const T &)' being compiled
+          with
+          [
+              T=vec3
+          ]
+  ConsoleApplication1.vcxproj -> Z:\profiledata\Documents\Visual Studio 2015\Projects\ConsoleApplication1\Debug\GLFramework.exe
+  ConsoleApplication1.vcxproj -> Z:\profiledata\Documents\Visual Studio 2015\Projects\ConsoleApplication1\Debug\GLFramework.pdb (Full PDB)

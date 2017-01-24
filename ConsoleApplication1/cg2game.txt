@@ -1,0 +1,26 @@
+Labyrinth  - Low poly fps game, with an abandoned prison-island theme
+
+	Early goals:
+		focus on basic movement mechanics
+		collision detection between bullets->enemies, enemy_bullets->player, enemies->player, player->walls
+			No jump initially so that player's height is static--no gravity needed unless we make it to that point at which time we would implement jump and floor collision
+		integration of graphic features discussed in class
+			Emissive bullets!
+			Shadows
+			Normal mapped walls
+			Reflective pools of water
+			Use darkness and light sources as a game mechanic
+				Player has a flashlight/spotlight 
+					Powered by battery that is replenished when not in use.
+			Explosions that use particle effects
+			Enemies that shoot at you
+			Enemies that deal contact damage
+			
+			
+	Late goals:
+		Procedurally generated floors
+		Weapons of varying strength and effect
+		Variety of enemies
+		
+Matthew Crabtree
+Skyler Evans

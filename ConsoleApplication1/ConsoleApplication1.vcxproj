@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D43E4B73-F155-4F63-9E4E-D79AF4E23B5C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ConsoleApplication1</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>GLFramework</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>Z:\profiledata\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1;Z:\profiledata\Documents\CG2\SDL2-2.0.5\include;Z:\profiledata\Documents\CG2\libs;$(IncludePath)</IncludePath>
+    <LibraryPath>Z:\profiledata\Documents\CG2\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;OGG_MUSIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;ws2_32.lib;IPHLPAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\CG2\libs\adler32.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\analysis.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\bitrate.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\bitwise.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\block.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\codebook.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\compress.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\crc32.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\deflate.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\dynamic_flac.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\dynamic_fluidsynth.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\dynamic_mod.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\dynamic_modplug.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\dynamic_mp3.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\dynamic_ogg.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\effects_internal.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\effect_position.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\effect_stereoreverse.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\envelope.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\floor0.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\floor1.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\fluidsynth.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\framing.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\glfuncs.cpp" />
+    <ClCompile Include="..\..\..\..\CG2\libs\gzclose.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\gzlib.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\gzread.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\gzwrite.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\infback.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\inffast.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\inflate.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\info.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\inftrees.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\load_aiff.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\load_flac.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\load_mp3.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\load_ogg.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\load_voc.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\lookup.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\lpc.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\lsp.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\mapping0.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\mdct.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\mixer.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\music.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\music_cmd.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\music_flac.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\music_mad.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\music_mod.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\music_modplug.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\music_ogg.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\png.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngerror.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngget.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngmem.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngpread.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngread.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngrio.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngrtran.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngrutil.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngset.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngtrans.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngwio.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngwrite.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngwtran.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\pngwutil.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\psy.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\registry.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\res0.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\SDLnet.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\SDLnetselect.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\SDLnetTCP.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\SDLnetUDP.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\sharedbook.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\smallft.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\synthesis.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\trees.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\uncompr.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\vorbisenc.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\vorbisfile.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\wavestream.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\window.c" />
+    <ClCompile Include="..\..\..\..\CG2\libs\zutil.c" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\CG2\libs\backends.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\bitrate.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\codebook.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\codec.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\codec_internal.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\config_types.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\crc32.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\deflate.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\dynamic_flac.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\dynamic_fluidsynth.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\dynamic_mod.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\dynamic_modplug.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\dynamic_mp3.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\dynamic_ogg.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\effects_internal.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\envelope.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\floor_all.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\floor_books.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\fluidsynth.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\glcorearb.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\glfuncs.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\gzguts.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\highlevel.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\inffast.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\inffixed.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\inflate.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\inftrees.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\load_aiff.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\load_flac.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\load_mp3.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\load_ogg.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\load_voc.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\lookup.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\lookup_data.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\lpc.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\lsp.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\masking.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\math3d.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\mdct.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\misc.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\music_cmd.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\music_flac.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\music_mad.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\music_mod.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\music_modplug.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\music_ogg.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\ogg.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\os.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\os_types.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\png.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\pngconf.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\pngpriv.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\psy.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\psych_11.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\psych_16.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\psych_44.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\psych_8.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\registry.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\residue_16.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\residue_44.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\residue_44p51.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\residue_44u.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\residue_8.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\res_books_51.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\res_books_stereo.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\res_books_uncoupled.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\scales.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\SDLnetsys.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\SDL_mixer.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\SDL_net.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_11.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_16.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_22.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_32.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_44.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_44p51.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_44u.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_8.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\setup_X.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\smallft.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\trees.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\vorbisenc.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\vorbisfile.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\wavestream.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\window.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\zconf.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\zlib.h" />
+    <ClInclude Include="..\..\..\..\CG2\libs\zutil.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="CubeTexture.h" />
+    <ClInclude Include="ImageCubeTexture.h" />
+    <ClInclude Include="ImageTexture.h" />
+    <ClInclude Include="ImageTextureArray.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ppng.h" />
+    <ClInclude Include="Program.h" />
+    <ClInclude Include="Robot.h" />
+    <ClInclude Include="SolidTexture.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Texture2DArray.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="fs.txt" />
+    <Text Include="map.txt" />
+    <Text Include="vs.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
