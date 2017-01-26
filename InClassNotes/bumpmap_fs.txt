@@ -1,0 +1,22 @@
+//bump map frag shader.
+
+uniform sampler2d nmap;
+uniform worldMatrix;
+in vec2 v_texc;
+in vec3 v_N;
+in vec3 v_T;
+in vec3 v_pw; 	//point in world space. 
+
+void main() {
+	vec4 q = texture(nmap, v_texc);
+	w = (q - (1/2)) * 2
+	vec3 N = normalize(v_N);
+	vec3 T = normalize(v_T);
+	vec3 B = cross(N,T);
+	vec3 nN;	//new perturbed normal
+	//nN.x = q.r*T.x + q.g*B.x + q.b*N.x
+	mat3 Q = mat3(T.x, B.x, N.x, T.y, B.y, N.y, T.z, B.z, T.z)
+	nN = q.rgb * Q;
+	nN = normalize(nN);
+	nN = (vec4(nN,0) * worldMatrix).xyz;
+	}
