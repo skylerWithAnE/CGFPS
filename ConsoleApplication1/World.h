@@ -13,9 +13,11 @@ class World{
     vector<Robot*> robots;
     Cube* cube;
     ImageTexture* bricks;
+	ImageTexture* bricks_s;
+	ImageTexture* bricks_n;
     ImageTexture* floortex;
     ImageTexture* ceiltex;
-	ImageTexture* bricks_s;
+	
     
     World(){
         ifstream fp("map.txt");
@@ -33,8 +35,9 @@ class World{
         numcols = int(lines[0].size());
         
         cube = new Cube();
-        bricks = new ImageTexture("bricks2.png");
-		bricks_s = new ImageTexture("bricks2s.png");
+        bricks = new ImageTexture("T_Brick_Clay_Beveled_D.PNG");
+		bricks_s = new ImageTexture("T_Brick_Clay_Beveled_M.PNG");
+		bricks_n = new ImageTexture("T_Brick_Clay_Beveled_N.PNG");
         floortex = new ImageTexture("floor.png");
         ceiltex = new ImageTexture("ceiling.png");
 
@@ -42,15 +45,15 @@ class World{
             for(unsigned j=0;j<lines[i].size();++j){
                 if( lines[i][j] == 'R' ){
                     lines[i][j] = ' ';
-                    robots.push_back( new Robot( vec3(float(j*2),0,float(i*2)) ) );
+                    //robots.push_back( new Robot( vec3(float(j*2),0,float(i*2)) ) );
                 }
             }
         }
     }
     
     void update(int elapsed){
-        for( auto R : robots )
-            R->update(elapsed);
+        //for( auto R : robots )
+        //    R->update(elapsed);
     }
     
     void draw(Program* prog){
@@ -98,11 +101,22 @@ class World{
 				}
 			}
 		}
-
+		prog->setUniform("ntex", bricks_n);
+		for (int r = 0; r<(int)this->lines.size(); ++r) {
+			string& L = this->lines[r];
+			for (int c = 0; c<(int)L.size(); ++c) {
+				if (L[c] == '*') {
+					prog->setUniform("ntex", this->bricks_n);
+					prog->setUniform("worldMatrix",
+						translation(vec3(float(c * 2), 1.0f, float(r * 2))));
+					cube->draw(prog);
+				}
+			}
+		}
         
-        for(auto R : robots ){
+        /*for(auto R : robots ){
             R->draw(prog);
-        }
+        }*/
     }
 };
 

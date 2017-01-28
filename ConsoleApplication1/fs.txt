@@ -1,23 +1,41 @@
 #version 150
 
+uniform worldMatrix;
 uniform sampler2D tex;
 uniform sampler2D etex;
 uniform sampler2D stex;
+uniform sampler2D ntex;
 uniform vec3 lightPos;
 uniform vec3 eyePos;
 
 in vec2 v_texcoord;
 in vec3 v_normal;
+//in vec3 v_tangent;
 in vec3 v_worldPos;
 
 out vec4 color;
 
 void main(){
-    vec3 N = normalize(v_normal);
+	vec3 Nw = (vec4(a_normal, 0.0 ) * worldMatrix).xyz;
+    //n = n * worldMatrix;
+    //vec3 Nw = normalize(v_normal);
     vec3 L = normalize(lightPos - v_worldPos);
     vec3 V = normalize(eyePos - v_worldPos);
-    vec3 R = reflect( -L,N );
-    float diffuse = clamp( dot(N,L), 0.0, 1.0 );
+    vec3 R = reflect( -L,Nw );
+
+	//Bump mapping
+	vec3 N = normalize(v_normal);
+	vec4 q = texture(ntex, v_texcoord);
+	w = (q - 1/2)) * 2;
+	//vec3 T = normalize(v_tangent);
+	vec3 B = cross(N,vec3(0,0,1));
+	vec3 new_normal;
+	mat3 Q = mat3(T.x, B.x, N.x, T.y, B.y, N.y, T.z, B.z, T.z);
+	new_normal = q.rgb * Q;
+	new_normal = normalize(new_normal);
+	new_normal = (vec4(new_normal,0) * worldMatrix).xyz;
+	
+    float diffuse = clamp( dot(Nw,L), 0.0, 1.0 );
     float specular = pow( max( 0.0, dot(V,R)) , 32.0 ); //hardcoded exponent
     specular *= sign(diffuse);  //no specular if no diffuse
     

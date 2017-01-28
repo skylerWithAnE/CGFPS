@@ -3,10 +3,12 @@
 in vec3 a_position;
 in vec2 a_texcoord;
 in vec3 a_normal;
+in vec3 a_tangent;
 
 out vec2 v_texcoord;
 out vec3 v_normal;
 out vec3 v_worldPos;
+out vec3 v_tangent;
 
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix;
@@ -20,7 +22,9 @@ void main(){
     p = p * projMatrix;
     gl_Position = p;
     v_texcoord = a_texcoord;
-    vec4 n = vec4(a_normal, 0.0 );
-    n = n * worldMatrix;
-    v_normal = n.xyz;
+    //vec4 n = vec4(a_normal, 0.0 );
+    //n = n * worldMatrix;
+    //v_normal = n.xyz;
+	//v_tangent = a_tangent;
+	v_normal = a_normal;
 }
