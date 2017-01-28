@@ -43,6 +43,15 @@ class Cube{
             0,1,0,  0,1,0,  0,1,0,  0,1,0,
             0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0
         };
+
+		float tndata[] = {
+			0,1,0,  0,1,0,  0,1,0,  0,1,0,
+			0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0,
+			0,1,0,  0,1,0,  0,1,0,  0,1,0,
+			0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0,
+			0,1,0,  0,1,0,  0,1,0,  0,1,0,
+			0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0
+		};
             
         unsigned short idata[] = {
             0,1,2,      0,2,3,
@@ -82,10 +91,18 @@ class Cube{
         glEnableVertexAttribArray(Program::NORMAL_INDEX);
         glVertexAttribPointer(Program::NORMAL_INDEX,3,GL_FLOAT,false,3*4,0);
         
+		glGenBuffers(1, tmp);
+		GLuint tnbuff = tmp[0];
+		glBindBuffer(GL_ARRAY_BUFFER, tnbuff);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(tndata), tndata, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(Program::TANGENT_INDEX);
+		glVertexAttribPointer(Program::TANGENT_INDEX, 3, GL_FLOAT, false, 3 * 4, 0);
+
         glGenBuffers(1,tmp);
         GLuint ibuff = tmp[0];
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ibuff);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(idata),idata,GL_STATIC_DRAW);
+
  
         glBindVertexArray(0);
     }
