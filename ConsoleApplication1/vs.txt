@@ -23,8 +23,8 @@ void main(){
     p = p * projMatrix;
     gl_Position = p;
     v_texcoord = a_texcoord;
-    //vec4 n = vec4(a_normal, 0.0 );
-    //n = n * worldMatrix;
+    vec4 n = vec4(a_normal, 0.0 );
+    n = n * worldMatrix;
 	//v_normal = n.xyz;
     v_normal = a_normal;	//n.xyz;
 	v_tangent = a_tangent;
