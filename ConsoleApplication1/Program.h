@@ -398,8 +398,10 @@ public:
 			cout << infolog;
 		}
 		glGetShaderiv(s, GL_COMPILE_STATUS, tmp);
-		if (!tmp[0])
+		if (!tmp[0]) {
 			throw runtime_error("Cannot compile " + filename);
+			cout << tmp << endl;
+		}
 		return s;
 	}
 };

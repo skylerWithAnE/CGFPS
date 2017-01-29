@@ -10,7 +10,7 @@ class Robot{
     Robot(vec3 pos){
 		if (mesh == NULL)
 			//mesh = new Mesh("robot.obj.mesh");
-			mesh = new Mesh("robot2.obj.mesh");
+			
         this->pos=pos;
     }
     void draw(Program* prog){

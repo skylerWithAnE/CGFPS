@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     SDL_Window* win = SDL_CreateWindow( 
         "ETGG",
         20,20, 
-        512,512, 
+        1024,1024, 
         SDL_WINDOW_OPENGL);
     
     if(!win)

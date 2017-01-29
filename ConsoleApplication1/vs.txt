@@ -7,8 +7,9 @@ in vec3 a_tangent;
 
 out vec2 v_texcoord;
 out vec3 v_normal;
-out vec3 v_worldPos;
 out vec3 v_tangent;
+out vec3 v_worldPos;
+out mat4 v_worldMatrix;
 
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix;
@@ -24,7 +25,8 @@ void main(){
     v_texcoord = a_texcoord;
     //vec4 n = vec4(a_normal, 0.0 );
     //n = n * worldMatrix;
-    //v_normal = n.xyz;
-	//v_tangent = a_tangent;
-	v_normal = a_normal;
+	//v_normal = n.xyz;
+    v_normal = a_normal;	//n.xyz;
+	v_tangent = a_tangent;
+	v_worldMatrix = worldMatrix;
 }
