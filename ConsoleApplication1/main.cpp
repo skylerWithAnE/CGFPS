@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     SDL_Window* win = SDL_CreateWindow( 
         "ETGG",
         20,20, 
-        1024,1024, 
+        1600,900, 
         SDL_WINDOW_OPENGL);
     
     if(!win)
@@ -125,7 +125,10 @@ int main(int argc, char* argv[])
                 //mouse up,ev.button.button,ev.button.x,ev.button.y
             } else if( ev.type == SDL_MOUSEMOTION ){
                 float dx = (float)ev.motion.xrel;
-                cam->turn(-0.01f*dx);
+			//	float dy = (float)ev.motion.yrel;
+				
+				cam->turn(-0.01f*dx);
+				
             }
         }
         

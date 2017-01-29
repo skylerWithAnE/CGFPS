@@ -29,6 +29,7 @@ class Camera{
         this->compute_proj_matrix();
         this->compute_view_matrix();
     }
+
     
     void compute_proj_matrix(){
         this->projmatrix = mat4( 

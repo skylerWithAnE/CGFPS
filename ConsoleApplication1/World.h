@@ -16,7 +16,11 @@ public:
 	ImageTexture* bricks_s;
 	ImageTexture* bricks_n;
 	ImageTexture* floortex;
+	ImageTexture* floor_n;
+	//ImageTexture* floor_s;
 	ImageTexture* ceiltex;
+	ImageTexture* ceil_n;
+	ImageTexture* ceil_s;
 
 	World() {
 		ifstream fp("map.txt");
@@ -37,11 +41,17 @@ public:
 		bricks = new ImageTexture("T_Brick_Clay_New_D.png");
 		bricks_s = new ImageTexture("T_Brick_Clay_Beveled_S.png");
 		bricks_n = new ImageTexture("T_Brick_Clay_Beveled_N.png");
+		floortex = new ImageTexture("T_CobbleStone_Rough_D.PNG");
+		floor_n = new ImageTexture("T_CobbleStone_Rough_N.PNG");
+		ceiltex = new ImageTexture("T_Wood_Floor_Walnut_D.PNG");
+		ceil_n = new ImageTexture("T_Wood_Floor_Walnut_N.PNG");
+		ceil_s = new ImageTexture("T_Wood_Floor_Walnut_M.PNG");
 		//bricks = new ImageTexture("bricks2.png");
 		//bricks_s = new ImageTexture("bricks2s.png");
 		//bricks_n = new ImageTexture("bricks_n.png");
-		floortex = new ImageTexture("floor.png");
-		ceiltex = new ImageTexture("ceiling.png");
+		//floortex = new ImageTexture("floor.png");
+		//floortex_s = new ImageTexture("")
+		//ceiltex = new ImageTexture("ceiling.png");
 
 		//for (unsigned i = 0; i<lines.size(); ++i) {
 		//	for (unsigned j = 0; j<lines[i].size(); ++j) {
@@ -63,6 +73,8 @@ public:
 		//FIXME: We could make this more efficient by building one big mesh...
 
 		prog->setUniform("tex", ceiltex);
+		prog->setUniform("stex", ceil_s);
+		prog->setUniform("ntex", ceil_n);
 		for (int r = 0; r<numrows; ++r) {
 			for (int c = 0; c<numcols; ++c) {
 				prog->setUniform("worldMatrix",
@@ -71,6 +83,7 @@ public:
 			}
 		}
 		prog->setUniform("tex", floortex);
+		prog->setUniform("ntex", floor_n);
 		prog->setUniform("worldMatrix", mat4::identity());
 		for (int r = 0; r<numrows; ++r) {
 			for (int c = 0; c<numcols; ++c) {
@@ -86,9 +99,9 @@ public:
 			string& L = this->lines[r];
 			for (int c = 0; c<(int)L.size(); ++c) {
 				if (L[c] == '*') {
-					prog->setUniform("tex", this->bricks);
-					prog->setUniform("stex", this->bricks_s);
-					prog->setUniform("ntex", this->bricks_n);
+					//prog->setUniform("tex", this->bricks);
+					//prog->setUniform("stex", this->bricks_s);
+					//prog->setUniform("ntex", this->bricks_n);
 					prog->setUniform("worldMatrix",
 						translation(vec3(float(c * 2), 1.0f, float(r * 2))));
 					cube->draw(prog);
