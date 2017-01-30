@@ -61,5 +61,5 @@ tri = {'none':
        #     20, 21, 22, 20, 22, 23
        # )
 T, B, N = compute_tbn(v, tc, tri)
-for v in T:
+for v in B:
     print(v)

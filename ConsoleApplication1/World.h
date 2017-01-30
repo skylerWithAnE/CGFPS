@@ -46,9 +46,9 @@ public:
 		ceiltex = new ImageTexture("T_Wood_Floor_Walnut_D.PNG");
 		ceil_n = new ImageTexture("T_Wood_Floor_Walnut_N.PNG");
 		ceil_s = new ImageTexture("T_Wood_Floor_Walnut_M.PNG");
-	/*	bricks = new ImageTexture("bricks2.png");
-		bricks_s = new ImageTexture("bricks2s.png");
-		bricks_n = new ImageTexture("bricks_n.png");*/
+		//bricks = new ImageTexture("bricks2.png");
+		//bricks_s = new ImageTexture("bricks2s.png");
+		//bricks_n = new ImageTexture("bricks_n.png");
 		//floortex = new ImageTexture("floor.png");
 		//floortex_s = new ImageTexture("")
 		//ceiltex = new ImageTexture("ceiling.png");

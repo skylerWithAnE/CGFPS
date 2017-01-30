@@ -18,7 +18,7 @@ out vec4 color;
 void main(){
     vec3 N = normalize(v_normal);
 	vec4 q = texture(ntex, v_texcoord);
-	q = (q - (1/2)) * 2;
+	q = (q - (1/2.0)) * 2.0;
 	vec3 T = normalize(v_tangent);
 	vec3 B = cross(N,T);
 	mat3 Q = mat3(T.x, B.x, N.x, T.y, B.y, N.y, T.z, B.z, N.z);
@@ -33,8 +33,9 @@ void main(){
     specular *= sign(diffuse);  //no specular if no diffuse
     
     color = texture(tex,v_texcoord);
+	//color.rgb = newNormal;
     color.rgb *= diffuse;
-    color.rgb += specular * texture(stex,v_texcoord).rgb;
+    //color.rgb += specular * texture(stex,v_texcoord).rgb;
     //color.rgb += texture(etex,v_texcoord).rgb;
     
 }
