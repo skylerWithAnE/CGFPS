@@ -342,6 +342,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="fs.txt" />
+    <Text Include="fsd.txt" />
     <Text Include="map.txt" />
     <Text Include="vs.txt" />
   </ItemGroup>

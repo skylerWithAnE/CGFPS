@@ -595,6 +595,9 @@
     <Text Include="vs.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="fsd.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile">

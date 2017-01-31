@@ -32,10 +32,10 @@ void main(){
     float specular = pow( max( 0.0, dot(V,R)) , 32.0 ); //hardcoded exponent
     specular *= sign(diffuse);  //no specular if no diffuse
     
-    color = texture(tex,v_texcoord);
-	//color.rgb = newNormal;
+    //color.rgb = newNormal;
+	color = texture(tex,v_texcoord);
     color.rgb *= diffuse;
-    //color.rgb += specular * texture(stex,v_texcoord).rgb;
+    color.rgb += specular * texture(stex,v_texcoord).rgb;
     //color.rgb += texture(etex,v_texcoord).rgb;
     
 }
