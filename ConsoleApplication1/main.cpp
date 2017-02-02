@@ -26,6 +26,9 @@ using namespace std;
 #include "ImageTexture.h"
 #include "Camera.h"
 #include "World.h"
+#include "Robot.h"
+#include "Square.h"
+#include "Texture.h"
 
 
 void APIENTRY debugcallback( GLenum source, GLenum typ,
@@ -47,7 +50,7 @@ int main(int argc, char* argv[])
     SDL_Window* win = SDL_CreateWindow( 
         "ETGG",
         20,20, 
-        1600,900, 
+        1300,700, 
         SDL_WINDOW_OPENGL);
     
     if(!win)
@@ -137,17 +140,17 @@ int main(int argc, char* argv[])
         last=now;
         
         if(keys.find(SDLK_w) != keys.end() )
-            cam->walk(0.01f*elapsed);
+            cam->walk(0.002f*elapsed);
         if(keys.find(SDLK_s) != keys.end() )
-            cam->walk(-0.01f*elapsed);
+            cam->walk(-0.002f*elapsed);
         if(keys.find(SDLK_j) != keys.end() )
             cam->turn(0.001f*elapsed);
         if(keys.find(SDLK_l) != keys.end() )
             cam->turn(-0.001f*elapsed);
         if(keys.find(SDLK_a) != keys.end() )
-            cam->strafe(-0.01f*elapsed,0,0);
+            cam->strafe(-0.002f*elapsed,0,0);
         if(keys.find(SDLK_d) != keys.end() )
-            cam->strafe(0.01f*elapsed,0,0);
+            cam->strafe(0.002f*elapsed,0,0);
         if(keys.find(SDLK_i) != keys.end() )
             cam->strafe(0,0.01f*elapsed,0);
         if(keys.find(SDLK_k) != keys.end() )
@@ -169,3 +172,4 @@ int main(int argc, char* argv[])
 //static's are defined here
 Program* Program::active=NULL;
 Mesh* Robot::mesh=NULL;
+Texture* Texture::active_textures[128];

@@ -584,6 +584,12 @@
     <ClInclude Include="..\libs\zutil.h">
       <Filter>Source Files\Libraries</Filter>
     </ClInclude>
+    <ClInclude Include="Framebuffer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fs.txt">
