@@ -21,6 +21,7 @@
 bld/
 [Bb]in/
 [Oo]bj/
+ConsoleApplication1/assets
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -243,3 +244,13 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Fat Zombie/tex.zip
+/Fat Zombie/Fat_zombie.xml
+/Fat Zombie/Fat_zombie.dae
+/Fat Zombie/Fat_zombie.c4d
+/VoidWalkerZ 2017-01-31 at 9.28.00 AM/zombee/zahmbee.rar
+/VoidWalkerZ 2017-01-31 at 9.28.00 AM/Zombi Male/Zombie_male_model.rar
+/VoidWalkerZ 2017-01-31 at 9.28.00 AM/Zombi Male/Zombie_Male_Model.fbx
+/VoidWalkerZ 2017-01-31 at 9.28.00 AM/Zombi Male/Zombie_Male_Model.3ds
+/VoidWalkerZ 2017-01-31 at 9.28.00 AM/Zombi Male/Zombie_Male_Mode.c4d
+/VoidWalkerZ 2017-01-31 at 9.28.00 AM/zombie/zombie.zip

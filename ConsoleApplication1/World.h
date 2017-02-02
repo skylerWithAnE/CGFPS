@@ -38,14 +38,14 @@ public:
 		numcols = int(lines[0].size());
 
 		cube = new Cube();
-		bricks = new ImageTexture("T_Brick_Clay_New_D.png");
-		bricks_s = new ImageTexture("T_Brick_Clay_Beveled_S.png");
-		bricks_n = new ImageTexture("T_Brick_Clay_Beveled_N.png");
-		floortex = new ImageTexture("T_CobbleStone_Rough_D.PNG");
-		floor_n = new ImageTexture("T_CobbleStone_Rough_N.PNG");
-		ceiltex = new ImageTexture("T_Wood_Floor_Walnut_D.PNG");
-		ceil_n = new ImageTexture("T_Wood_Floor_Walnut_N.PNG");
-		ceil_s = new ImageTexture("T_Wood_Floor_Walnut_M.PNG");
+		bricks = new ImageTexture("assets/T_Brick_Clay_New_D.png");
+		bricks_s = new ImageTexture("assets/T_Brick_Clay_Beveled_S.png");
+		bricks_n = new ImageTexture("assets/T_Brick_Clay_Beveled_N.png");
+		floortex = new ImageTexture("assets/T_CobbleStone_Rough_D.PNG");
+		floor_n = new ImageTexture("assets/T_CobbleStone_Rough_N.PNG");
+		ceiltex = new ImageTexture("assets/T_Wood_Floor_Walnut_D.PNG");
+		ceil_n = new ImageTexture("assets/T_Wood_Floor_Walnut_N.PNG");
+		ceil_s = new ImageTexture("assets/T_Wood_Floor_Walnut_M.PNG");
 		//bricks = new ImageTexture("bricks2.png");
 		//bricks_s = new ImageTexture("bricks2s.png");
 		//bricks_n = new ImageTexture("bricks_n.png");
