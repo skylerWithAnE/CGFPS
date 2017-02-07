@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Texture.h"
 #include "ImageTexture.h"
-#include "ImageTextureArray.h"
 #include "CubeTexture.h"
+#include "Texture2DArray.h"
 #include "math3d.h"
 #include "util.h"
 
@@ -217,15 +218,15 @@ public:
 	GLuint prog;
 	string name;
 
-	Program(string vsfname, string fsfname) {
-		init(vsfname, "", fsfname);
+	Program(string vsfname, string fsfname, const vector<string>& outputs) {
+		init(vsfname, "", fsfname, outputs);
 	}
 
-	Program(string vsfname, string gsfname, string fsfname) {
-		init(vsfname, gsfname, fsfname);
+	Program(string vsfname, string gsfname, string fsfname, const vector<string>& outputs) {
+		init(vsfname, gsfname, fsfname, outputs);
 	}
 
-	void init(string vsfname, string gsfname, string fsfname) {
+	void init(string vsfname, string gsfname, string fsfname, const vector<string>& outputs) {
 
 		this->name = vsfname + " " + gsfname + " " + fsfname;
 
@@ -255,6 +256,9 @@ public:
 		glBindAttribLocation(prog, Program::NORMAL_INDEX, "a_normal");
 		glBindAttribLocation(prog, Program::TANGENT_INDEX, "a_tangent");
 
+		for (unsigned i = 0; i<outputs.size(); ++i)
+			glBindFragDataLocation(prog, i, outputs[i].c_str());
+
 		glLinkProgram(prog);
 		char infolog[4096];
 		GLsizei isize;
@@ -268,6 +272,11 @@ public:
 		if (!tmp[0])
 			throw runtime_error("Could not link shaders");
 
+		for (string x : outputs) {
+			int loc = glGetFragDataLocation(prog, x.c_str());
+			if (loc == -1)
+				throw runtime_error("Shader " + fsfname + " does not have output " + x);
+		}
 
 		int texcounter = 0;
 		glGetProgramiv(prog, GL_ACTIVE_UNIFORMS, tmp);
@@ -283,6 +292,7 @@ public:
 			string name = namea;
 			int loc = glGetUniformLocation(prog, name.c_str());
 			uninitialized.insert(name);
+
 			if (size[0] == 1) {
 				switch (type_[0]) {
 				case GL_INT:
@@ -341,7 +351,6 @@ public:
 				}
 			}
 		}
-
 	}
 
 	set<string> warned;
@@ -353,7 +362,6 @@ public:
 			throw runtime_error("Cannot set uniform on non-active program");
 
 		uninitialized.erase(name);
-
 
 		if (this->setters.find(name) != setters.end()) {
 			this->setters[name]->set(value);
@@ -398,10 +406,8 @@ public:
 			cout << infolog;
 		}
 		glGetShaderiv(s, GL_COMPILE_STATUS, tmp);
-		if (!tmp[0]) {
+		if (!tmp[0])
 			throw runtime_error("Cannot compile " + filename);
-			cout << tmp << endl;
-		}
 		return s;
 	}
 };

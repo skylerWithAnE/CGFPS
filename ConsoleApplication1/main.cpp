@@ -44,14 +44,11 @@ void APIENTRY debugcallback( GLenum source, GLenum typ,
 
 int main(int argc, char* argv[])
 {
-	
 	cout << "STARTING\n";
 
     //initialize SDL
     SDL_Init(SDL_INIT_VIDEO);
 
-    //Texture* d;    //new
-	//SolidTexture* d = new SolidTexture(1.0f, 0.0f, 0.0f, 0.0f);  //new
     //Bring up a window at 20,20 with size 512x512  //1300x700
     SDL_Window* win = SDL_CreateWindow( 
         "ETGG",
@@ -89,12 +86,11 @@ int main(int argc, char* argv[])
 	//Framebuffer2D* fbo2 = new Framebuffer2D(512, 512, 2);   //new
     
     World* world = new World();
-    
 	Square* usq = new Square();  //new
 
     //shaders
-    Program* prog = new Program("vs.txt","fs.txt");
-	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt"); //new
+	Program* prog = new Program("vs.txt", "fs.txt", { "color" });
+	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt", { "color" }); //new
 
     //view camera
     Camera* cam = new Camera();
@@ -113,7 +109,6 @@ int main(int argc, char* argv[])
     glEnable(GL_DEPTH_TEST);
 
     while(1){
-        
         //pump the event queue...
         while(1){
             if(!SDL_PollEvent(&ev)){
@@ -142,7 +137,6 @@ int main(int argc, char* argv[])
 			//	float dy = (float)ev.motion.yrel;
 				
 				cam->turn(-0.01f*dx);
-				
             }
         }
         
@@ -167,7 +161,6 @@ int main(int argc, char* argv[])
         if(keys.find(SDLK_k) != keys.end() )
             cam->strafe(0,-0.01f*elapsed,0);
 
-		//postprocprog->setUniform("tex", d); //new
 		fbo1->bind();//new
         prog->use();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
