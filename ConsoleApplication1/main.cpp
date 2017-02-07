@@ -29,6 +29,9 @@ using namespace std;
 #include "Robot.h"
 #include "Square.h"
 #include "Texture.h"
+#include "Framebuffer.h"
+#include "SolidTexture.h"
+
 
 
 void APIENTRY debugcallback( GLenum source, GLenum typ,
@@ -41,12 +44,15 @@ void APIENTRY debugcallback( GLenum source, GLenum typ,
 
 int main(int argc, char* argv[])
 {
+	
 	cout << "STARTING\n";
 
     //initialize SDL
     SDL_Init(SDL_INIT_VIDEO);
-    
-    //Bring up a window at 20,20 with size 512x512
+
+    //Texture* d;    //new
+	//SolidTexture* d = new SolidTexture(1.0f, 0.0f, 0.0f, 0.0f);  //new
+    //Bring up a window at 20,20 with size 512x512  //1300x700
     SDL_Window* win = SDL_CreateWindow( 
         "ETGG",
         20,20, 
@@ -79,11 +85,16 @@ int main(int argc, char* argv[])
     Mix_AllocateChannels(16);
     Mix_Chunk* pew = Mix_LoadWAV("pew.ogg");
 
+	Framebuffer2D* fbo1 = new Framebuffer2D(1300, 700, 2);   //new
+	//Framebuffer2D* fbo2 = new Framebuffer2D(512, 512, 2);   //new
     
     World* world = new World();
     
+	Square* usq = new Square();  //new
+
     //shaders
     Program* prog = new Program("vs.txt","fs.txt");
+	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt"); //new
 
     //view camera
     Camera* cam = new Camera();
@@ -155,14 +166,30 @@ int main(int argc, char* argv[])
             cam->strafe(0,0.01f*elapsed,0);
         if(keys.find(SDLK_k) != keys.end() )
             cam->strafe(0,-0.01f*elapsed,0);
-            
-            
+
+		//postprocprog->setUniform("tex", d); //new
+		fbo1->bind();//new
         prog->use();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->draw(prog);
         prog->setUniform("lightPos",cam->eye.xyz());
         world->draw(prog);
+		fbo1->unbind();//new
         
+		//new block
+		postprocprog->use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		postprocprog->setUniform("tex", fbo1->texture);
+		usq->draw(postprocprog);
+
+		fbo1->texture->unbind();
+
+		GLenum err = glGetError();
+		while (err != GL_NO_ERROR) {
+			cout << "GL error: " << hex << err << "\n";
+			err = glGetError();
+		}  //end new block
+
         SDL_GL_SwapWindow(win);
     } //endwhile
     
@@ -173,3 +200,6 @@ int main(int argc, char* argv[])
 Program* Program::active=NULL;
 Mesh* Robot::mesh=NULL;
 Texture* Texture::active_textures[128];
+RenderTarget* RenderTarget::active_target;
+int RenderTarget::saved_viewport[4];
+int Square::vao;
