@@ -37,7 +37,8 @@ using namespace std;
 void APIENTRY debugcallback( GLenum source, GLenum typ,
         GLuint id_, GLenum severity, GLsizei length,
         const GLchar* message, const void* obj ){
-    cout << message << "\n";
+	if (id_ != 131204) 
+		cout << id_ << "\n";
     if( source != GL_DEBUG_SOURCE_SHADER_COMPILER && severity == GL_DEBUG_SEVERITY_HIGH )
         throw runtime_error("Encountered very bad GL error. Stopping.");
 }
@@ -107,7 +108,7 @@ int main(int argc, char* argv[])
 
     glClearColor(0.2f,0.4f,0.6f,1.0f);
     glEnable(GL_DEPTH_TEST);
-	bool pitchTest = false;
+
 
     while(1){
         //pump the event queue...
@@ -124,13 +125,9 @@ int main(int argc, char* argv[])
                 if(k == SDLK_q){
                     exit(0);
                 }
-				else if (k == SDLK_t) {
-					pitchTest = true;
-				}
+
             } else if(ev.type == SDL_KEYUP){
                 int k = ev.key.keysym.sym;
-				if (k == SDLK_t)
-					pitchTest = false;
                 keys.erase(k);
             } else if( ev.type == SDL_MOUSEBUTTONDOWN ){
                 cout << "Pew!\n";
@@ -143,8 +140,7 @@ int main(int argc, char* argv[])
 				float dy = (float)ev.motion.yrel;
 				
 				cam->turn(-0.01f*dx);
-				if(pitchTest)
-					cam->tilt(-0.01f*dy);
+				cam->tilt(-0.01f*dy);
             }
         }
         

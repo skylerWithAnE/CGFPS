@@ -54,9 +54,10 @@ class Camera{
     }
     
     void turn(float  a){
-        mat4 M = axisRotation( this->V, a );
+        mat4 M = axisRotation( vec4(0,1,0,0), a );
         this->U = this->U*M;
         this->W = this->W*M;
+		this->V = this->V*M;
         this->compute_view_matrix();
     }
 
