@@ -61,13 +61,14 @@ class Camera{
     }
 
 	void tilt(float a) {
+		//sign of y value of opposite look (this->W)
 		if (dot(V, vec4(0, 1, 0, 0)) >= .4) {
 			mat4 M = axisRotation(this->U, a);
 			this->V = this->V*M;
 			this->W = this->W*M;
 			this->compute_view_matrix();
 		}
-		if (dot(V, vec4(0, 1, 0, 0)) <= .3999) {
+		if (dot(V, vec4(0, 1, 0, 0)) <= .4) {
 			mat4 M = axisRotation(-this->U, a);
 			this->V = this->V*M;
 			this->W = this->W*M;
@@ -77,12 +78,13 @@ class Camera{
     }
     
     void walk(float a){
-        this->eye = this->eye + -a * this->W;
+        this->eye.x = this->eye.x + (-a * this->W).x;
+		this->eye.z = this->eye.z + (-a * this->W).z;
         this->compute_view_matrix();
     }
     
     void strafe(float x, float y, float z){
-        this->eye = this->eye + x*U + y*V + -z*W;
+        this->eye = this->eye + x*U + 0.f*V + -z*W;
         this->compute_view_matrix();
     }
     
