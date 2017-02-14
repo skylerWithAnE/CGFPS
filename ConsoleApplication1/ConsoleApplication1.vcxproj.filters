@@ -604,6 +604,12 @@
     <Text Include="fsd.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="ppfs.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="ppvs.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile">

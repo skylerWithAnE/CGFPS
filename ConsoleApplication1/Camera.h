@@ -2,7 +2,6 @@
 
 #include "math3d.h"
 #include "Program.h"
-
 class Camera{
     public:
     
@@ -61,11 +60,20 @@ class Camera{
         this->compute_view_matrix();
     }
 
-    void tilt(float a){
-        mat4 M = axisRotation( this->U, a );
-        this->V = this->V*M;
-        this->W = this->W*M;
-        this->compute_view_matrix();
+	void tilt(float a) {
+		if (dot(V, vec4(0, 1, 0, 0)) >= .4) {
+			mat4 M = axisRotation(this->U, a);
+			this->V = this->V*M;
+			this->W = this->W*M;
+			this->compute_view_matrix();
+		}
+		if (dot(V, vec4(0, 1, 0, 0)) <= .3999) {
+			mat4 M = axisRotation(-this->U, a);
+			this->V = this->V*M;
+			this->W = this->W*M;
+			this->compute_view_matrix();
+		}
+
     }
     
     void walk(float a){
