@@ -107,6 +107,7 @@ int main(int argc, char* argv[])
 
     glClearColor(0.2f,0.4f,0.6f,1.0f);
     glEnable(GL_DEPTH_TEST);
+	bool pitchTest = false;
 
     while(1){
         //pump the event queue...
@@ -123,8 +124,13 @@ int main(int argc, char* argv[])
                 if(k == SDLK_q){
                     exit(0);
                 }
+				else if (k == SDLK_t) {
+					pitchTest = true;
+				}
             } else if(ev.type == SDL_KEYUP){
                 int k = ev.key.keysym.sym;
+				if (k == SDLK_t)
+					pitchTest = false;
                 keys.erase(k);
             } else if( ev.type == SDL_MOUSEBUTTONDOWN ){
                 cout << "Pew!\n";
@@ -134,9 +140,11 @@ int main(int argc, char* argv[])
                 //mouse up,ev.button.button,ev.button.x,ev.button.y
             } else if( ev.type == SDL_MOUSEMOTION ){
                 float dx = (float)ev.motion.xrel;
-			//	float dy = (float)ev.motion.yrel;
+				float dy = (float)ev.motion.yrel;
 				
 				cam->turn(-0.01f*dx);
+				if(pitchTest)
+					cam->tilt(-0.01f*dy);
             }
         }
         
