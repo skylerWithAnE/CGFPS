@@ -78,12 +78,14 @@ class Camera{
     }
     
     void walk(float a){
-        this->eye.x = this->eye.x + (-a * this->W).x;
-		this->eye.z = this->eye.z + (-a * this->W).z;
+		//the walk velocity changes depending on view angle...
+		vec4 Wprime = normalize(vec4(this->W.x, 0, this->W.z,0));
+		this->eye += (-a * Wprime);
         this->compute_view_matrix();
     }
     
     void strafe(float x, float y, float z){
+		//x and y are 0
         this->eye = this->eye + x*U + 0.f*V + -z*W;
         this->compute_view_matrix();
     }
