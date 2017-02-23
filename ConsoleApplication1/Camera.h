@@ -29,7 +29,6 @@ class Camera{
         this->compute_view_matrix();
     }
 
-    
     void compute_proj_matrix(){
         this->projmatrix = mat4( 
             1/tan(radians(this->fov_h)),0,0,0,
@@ -74,7 +73,6 @@ class Camera{
 			this->W = this->W*M;
 			this->compute_view_matrix();
 		}
-
     }
     
     void walk(float a){

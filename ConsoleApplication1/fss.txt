@@ -1,0 +1,8 @@
+#version 150
+uniform sampler2D FBO1;
+in vec2 v_texcoord;
+out vec4 color;
+void main(){
+    float c = 1.0/256.0 * texture(FBO1,v_texcoord.st).r;
+    color = vec4(c,c,c,1.0);
+}

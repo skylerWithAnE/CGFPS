@@ -610,6 +610,12 @@
     <Text Include="ppvs.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="fss.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="vss.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile">

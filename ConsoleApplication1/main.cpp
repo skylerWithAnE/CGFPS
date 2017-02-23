@@ -83,15 +83,17 @@ int main(int argc, char* argv[])
     Mix_AllocateChannels(16);
     Mix_Chunk* pew = Mix_LoadWAV("pew.ogg");
 
-	Framebuffer2D* fbo1 = new Framebuffer2D(1300, 700, 2);   //new
-	//Framebuffer2D* fbo2 = new Framebuffer2D(512, 512, 2);   //new
+	Framebuffer2D* fbo1 = new Framebuffer2D(1300, 700, 2);   
+	Framebuffer2D* fbo2 = new Framebuffer2D(1300, 700, 2);   //new
     
     World* world = new World();
-	Square* usq = new Square();  //new
+	Square* usq = new Square();
+	Square* usq2 = new Square();
 
     //shaders
 	Program* prog = new Program("vs.txt", "fs.txt", { "color" });
-	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt", { "color" }); //new
+	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt", { "color" });
+	Program* specprog = new Program("vss.txt", "fss.txt", { "color" });
 
     //view camera
     Camera* cam = new Camera();
@@ -165,27 +167,36 @@ int main(int argc, char* argv[])
         if(keys.find(SDLK_k) != keys.end() )
             cam->strafe(0,-0.01f*elapsed,0);
 
-		fbo1->bind();//new
+		fbo1->bind();
+		
         prog->use();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->draw(prog);
         prog->setUniform("lightPos",cam->eye.xyz());
         world->draw(prog);
-		fbo1->unbind();//new
-        
-		//new block
+		fbo1->unbind();
+
+        //fbo2->bind();
 		postprocprog->use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		postprocprog->setUniform("tex", fbo1->texture);
 		usq->draw(postprocprog);
 
 		fbo1->texture->unbind();
+		//fbo2->unbind();
+
+		//specprog->use();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//specprog->setUniform("tex2", fbo2->texture);
+		//usq2->draw(specprog);
+
+		//fbo2->texture->unbind();
 
 		GLenum err = glGetError();
 		while (err != GL_NO_ERROR) {
 			cout << "GL error: " << hex << err << "\n";
 			err = glGetError();
-		}  //end new block
+		} 
 
         SDL_GL_SwapWindow(win);
     } //endwhile

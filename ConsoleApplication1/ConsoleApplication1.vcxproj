@@ -349,7 +349,9 @@
     <Text Include="map.txt" />
     <Text Include="ppfs.txt" />
     <Text Include="ppvs.txt" />
+    <Text Include="fss.txt" />
     <Text Include="vs.txt" />
+    <Text Include="vss.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
