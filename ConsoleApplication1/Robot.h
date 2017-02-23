@@ -13,7 +13,7 @@ public:
 
 	Robot(vec3 pos) {
 		if (mesh == NULL)
-			mesh = new Mesh("robot2.obj.mesh");
+			mesh = new Mesh("assets/untitled.obj.mesh");
 		this->pos = pos;
 		this->vel = vec3(
 			randrange(-0.00001, 0.00001),

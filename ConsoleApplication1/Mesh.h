@@ -15,6 +15,7 @@ public:
 		Texture* emitmap = NULL;
 		Texture* specularmap = NULL;
 		Texture* reflmap = NULL;
+		Texture* normmap = NULL;
 	};
 	vector<Material> materials;
 	vector<pair<int, int> > groups;
@@ -34,7 +35,7 @@ public:
 
 		getline(fp, line);
 
-		if (line != "mesh_01s")
+		if (line != "mesh_01sb")
 			throw runtime_error("Incorrect mesh format: " + line);
 
 		GLuint tmp[1];
@@ -101,6 +102,22 @@ public:
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, idata.size(), &idata[0], GL_STATIC_DRAW);
 
 			}
+			else if (word == "bitangents") {
+				vector<char> btdata;
+				btdata.resize(this->numindices * 4 * 3);
+				fp.read(&btdata[0], btdata.size());
+			}
+			else if (word == "tangents") {
+				vector<char> tndata;
+				tndata.resize(this->numvertices * 4 * 3);
+				fp.read(&tndata[0], tndata.size());
+				glGenBuffers(1, tmp);
+				GLuint tnbuff = tmp[0];
+				glBindBuffer(GL_ARRAY_BUFFER, tnbuff);
+				glBufferData(GL_ARRAY_BUFFER, tndata.size(), &tndata[0], GL_STATIC_DRAW);
+				glEnableVertexAttribArray(Program::TANGENT_INDEX);
+				glVertexAttribPointer(Program::TANGENT_INDEX, 3, GL_FLOAT, false, 3 * 4, 0);
+			}
 			else if (word == "material") {
 				int start, num;
 				string mtlname;
@@ -123,6 +140,8 @@ public:
 						m.emitmap = new ImageTexture(value);
 					else if (key == "refl")
 						m.reflmap = new ImageTexture(value);
+					else if (key == "map_Bump")
+						m.normmap = new ImageTexture(value);
 				}
 
 				if (!m.texture)
@@ -133,6 +152,8 @@ public:
 					m.emitmap = new SolidTexture(0, 0, 0, 1);
 				if (!m.reflmap)
 					m.reflmap = new SolidTexture(0, 0, 0, 1);
+				if (!m.normmap)
+					m.normmap = new SolidTexture(0, 0, 0, 1);
 
 				materials.push_back(m);
 				groups.push_back(make_pair(start, num));
@@ -155,6 +176,7 @@ public:
 			prog->setUniform("etex", materials[i].emitmap);
 			prog->setUniform("stex", materials[i].specularmap);
 			prog->setUniform("rtex", materials[i].reflmap);
+			prog->setUniform("ntex", materials[i].normmap);
 			glDrawElements(GL_TRIANGLES, groups[i].second, GL_UNSIGNED_INT,
 				reinterpret_cast<GLvoid*>(groups[i].first * 4));
 		}

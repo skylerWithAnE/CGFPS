@@ -36,6 +36,6 @@ void main(){
 	color = texture(tex,v_texcoord);
     color.rgb *= diffuse;
     color.rgb += specular * texture(stex,v_texcoord).rgb;
-    //color.rgb += texture(etex,v_texcoord).rgb;
+    color.rgb += texture(etex,v_texcoord).rgb;
     
 }

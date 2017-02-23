@@ -53,19 +53,19 @@ public:
 		//floortex_s = new ImageTexture("")
 		//ceiltex = new ImageTexture("ceiling.png");
 
-		//for (unsigned i = 0; i<lines.size(); ++i) {
-		//	for (unsigned j = 0; j<lines[i].size(); ++j) {
-		//		if (lines[i][j] == 'R') {
-		//			lines[i][j] = ' ';
-		//			robots.push_back(new Robot(vec3(float(j * 2), 0, float(i * 2))));
-		//		}
-		//	}
-		//}
+		for (unsigned i = 0; i<lines.size(); ++i) {
+			for (unsigned j = 0; j<lines[i].size(); ++j) {
+				if (lines[i][j] == 'R') {
+					lines[i][j] = ' ';
+					robots.push_back(new Robot(vec3(float(j * 2), 0, float(i * 2))));
+				}
+			}
+		}
 	}
 
 	void update(int elapsed) {
-		//for (auto R : robots)
-		//	R->update(elapsed);
+		for (auto R : robots)
+			R->update(elapsed);
 	}
 
 	void draw(Program* prog) {
@@ -109,8 +109,8 @@ public:
 			}
 		}
 
-		/*for (auto R : robots) {
+		for (auto R : robots) {
 			R->draw(prog);
-		}*/
+		}
 	}
 };
