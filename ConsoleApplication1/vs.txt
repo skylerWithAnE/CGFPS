@@ -10,6 +10,7 @@ out vec3 v_normal;
 out vec3 v_tangent;
 out vec3 v_worldPos;
 out mat4 v_worldMatrix;
+out vec3 v_objPos;
 
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix;
@@ -26,6 +27,7 @@ void main(){
     //vec4 n = vec4(a_normal, 0.0 );
     //n = n * worldMatrix;
 	//v_normal = n.xyz;
+	v_objPos = a_position;
     v_normal = a_normal;	//n.xyz;
 	v_tangent = a_tangent;
 	v_worldMatrix = worldMatrix;

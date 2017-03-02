@@ -92,7 +92,7 @@ public:
 				cube->draw(prog);
 			}
 		}
-		prog->setUniform("roughness", 16.0f);
+		prog->setUniform("roughness", 6.0f);
 		prog->setUniform("tex", this->bricks);
 		prog->setUniform("stex", this->bricks_s);
 		prog->setUniform("ntex", this->bricks_n);
