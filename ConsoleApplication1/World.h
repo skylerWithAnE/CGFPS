@@ -71,7 +71,7 @@ public:
 	void draw(Program* prog) {
 
 		//FIXME: We could make this more efficient by building one big mesh...
-
+		prog->setUniform("roughness", 1.0f);
 		prog->setUniform("tex", ceiltex);
 		prog->setUniform("stex", ceil_s);
 		prog->setUniform("ntex", ceil_n);
@@ -92,6 +92,7 @@ public:
 				cube->draw(prog);
 			}
 		}
+		prog->setUniform("roughness", 16.0f);
 		prog->setUniform("tex", this->bricks);
 		prog->setUniform("stex", this->bricks_s);
 		prog->setUniform("ntex", this->bricks_n);

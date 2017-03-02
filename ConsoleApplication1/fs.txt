@@ -63,6 +63,20 @@ void main(){
     float t = r*(1.0-1.0/cos2d);
     float M;
 	
+	//float rt = r;
+    //float rb = rt*0.5;
+    //0,0,0 = center of object. Could change (have as
+    //a uniform).
+    //vec3 v = normalize(--->OBJPOS.XYZ<--- - vec3(0,0,0));
+    //float c = dot(v,vec3(0.0,0.0,-1.0));
+    //float s = sqrt(1.0-c);
+    //vec3 T = vec3(c, 0.0 ,sign(---->v_objPos.z<----)*s);
+    //vec3 H_ = normalize( H + -dot(N,H)*N );
+    //float cos_g = dot(T,H_);
+    //float cos2g = cos_g * cos_g;
+    //float t = (rt*rt*cos2g + rb*rb*(1.0-cos2g))*(1.0 - 1.0/cos2d);
+    //M = (rt * rb * exp(t)) / (4.0*cos2d*cos2d);
+
 	M = r*exp(t)/(4.0*cos2d*cos2d);
 
 	float A = clamp(2.0*cos_d[0]*min(cos_a[0], cos_b[0])/cos_c[0], 0.0, 1.0);
@@ -74,6 +88,6 @@ void main(){
 	color = texture(tex,v_texcoord);
     color.rgb *= diffuse;
     color.rgb += specular * texture(stex,v_texcoord).rgb;
-    color.rgb += texture(etex,v_texcoord).rgb;
+	color.rgb += texture(etex,v_texcoord).rgb;
     
 }
