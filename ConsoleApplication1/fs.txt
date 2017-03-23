@@ -84,7 +84,6 @@ void main(){
 	float A = clamp(2.0*cos_d[0]*min(cos_a[0], cos_b[0])/cos_c[0], 0.0, 1.0);
 	specular = vec3(M)*F*vec3(A)/(cos_a*cos_b*vec3(3.14159265358979323));
     specular *= sign(dp);
-	
     
     //color.rgb = newNormal;
 	color = texture(tex,v_texcoord);

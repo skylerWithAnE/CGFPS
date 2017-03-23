@@ -180,7 +180,7 @@ int main(int argc, char* argv[])
 		postprocprog->use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		postprocprog->setUniform("tex", fbo1->texture);
-		postprocprog->setUniform("numOfIterations", 4);
+		postprocprog->setUniform("numOfIterations", 2);
 		usq->draw(postprocprog);
 
 		fbo1->texture->unbind();

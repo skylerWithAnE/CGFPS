@@ -1,27 +1,35 @@
 #pragma once 
 #include "Program.h"
-#include "ImageTexture.h"
 #include "SolidTexture.h"
+#include "ImageTexture.h"
+#include "DataTexture.h"
 
 class Mesh {
 public:
 
 	string filename;
-
 	class Material {
 	public:
 		string name;
 		Texture* texture = NULL;
 		Texture* emitmap = NULL;
 		Texture* specularmap = NULL;
+		Texture* bumpmap = NULL;
 		Texture* reflmap = NULL;
-		Texture* normmap = NULL;
 	};
 	vector<Material> materials;
 	vector<pair<int, int> > groups;
 	int numvertices;
 	int numindices;
+	int numframes;
+	int numbones;
 	GLuint vao;
+	Texture* boneparents = NULL;
+	Texture* boneheads = NULL;
+
+
+	//for debugging...
+	vector<vec4> boneRotations;
 
 	Mesh(string filename) {
 
@@ -35,8 +43,8 @@ public:
 
 		getline(fp, line);
 
-		if (line != "mesh_01sb")
-			throw runtime_error("Incorrect mesh format: " + line);
+		if (line != "mesh_01sbr")
+			throw runtime_error("Incorrect mesh format: " + line + "; expected 'mesh01sbr'");
 
 		GLuint tmp[1];
 		glGenVertexArrays(1, tmp);
@@ -82,15 +90,23 @@ public:
 				glVertexAttribPointer(Program::TEXCOORD_INDEX, 2, GL_FLOAT, false, 2 * 4, 0);
 			}
 			else if (word == "normals") {
-				vector<char> ndata;
-				ndata.resize(this->numvertices * 4 * 3);
-				fp.read(&ndata[0], ndata.size());
+				vector<vec3> ndata;
+				ndata.resize(this->numvertices);
+				fp.read((char*)&ndata[0], ndata.size() * sizeof(ndata[0]));
 				glGenBuffers(1, tmp);
 				GLuint nbuff = tmp[0];
 				glBindBuffer(GL_ARRAY_BUFFER, nbuff);
-				glBufferData(GL_ARRAY_BUFFER, ndata.size(), &ndata[0], GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, ndata.size() * sizeof(ndata[0]), &ndata[0], GL_STATIC_DRAW);
 				glEnableVertexAttribArray(Program::NORMAL_INDEX);
 				glVertexAttribPointer(Program::NORMAL_INDEX, 3, GL_FLOAT, false, 3 * 4, 0);
+			}
+			else if (word == "tangents") {
+				//skip it
+				fp.seekg(this->numvertices * 4 * 3, ios::cur);
+			}
+			else if (word == "bitangents") {
+				//skip it
+				fp.seekg(this->numvertices * 4 * 3, ios::cur);
 			}
 			else if (word == "indices") {
 				vector<char> idata;
@@ -102,21 +118,55 @@ public:
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, idata.size(), &idata[0], GL_STATIC_DRAW);
 
 			}
-			else if (word == "bitangents") {
-				vector<char> btdata;
-				btdata.resize(this->numindices * 4 * 3);
-				fp.read(&btdata[0], btdata.size());
-			}
-			else if (word == "tangents") {
-				vector<char> tndata;
-				tndata.resize(this->numvertices * 4 * 3);
-				fp.read(&tndata[0], tndata.size());
+			else if (word == "boneowner") {
+				vector<float> data;
+				data.resize(this->numvertices);
+				fp.read((char*)&data[0], data.size() * sizeof(data[0]));
 				glGenBuffers(1, tmp);
-				GLuint tnbuff = tmp[0];
-				glBindBuffer(GL_ARRAY_BUFFER, tnbuff);
-				glBufferData(GL_ARRAY_BUFFER, tndata.size(), &tndata[0], GL_STATIC_DRAW);
-				glEnableVertexAttribArray(Program::TANGENT_INDEX);
-				glVertexAttribPointer(Program::TANGENT_INDEX, 3, GL_FLOAT, false, 3 * 4, 0);
+				GLuint buff = tmp[0];
+				glBindBuffer(GL_ARRAY_BUFFER, buff);
+				glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(data[0]), &data[0], GL_STATIC_DRAW);
+				glEnableVertexAttribArray(Program::BONE_INDEX);
+				glVertexAttribPointer(Program::BONE_INDEX, 3, GL_FLOAT, false, 1 * 4, 0);
+			}
+			else if (word == "boneheads") {
+				vector<vec3> bdata;
+				bdata.resize(this->numbones);
+				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
+				boneheads = new DataTexture(bdata, numbones, 1);
+			}
+			else if (word == "numbones") {
+				iss >> this->numbones;
+				boneRotations.resize(32);
+			}
+			else if (word == "boneparents") {
+				vector<float> bdata;
+				bdata.resize(this->numbones);
+				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
+				boneparents = new DataTexture(bdata, numbones, 1);
+			}
+			else if (word == "numframes") {
+				iss >> numframes;
+			}
+			else if (word == "rotations") {
+				vector<vec4> bdata;
+				bdata.resize(numbones*numframes);
+				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
+			}
+			else if (word == "translations") {
+				vector<vec4> bdata;
+				bdata.resize(numbones*numframes);
+				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
+			}
+			else if (word == "matrices") {
+				vector<mat4> bdata;
+				bdata.resize(numbones*numframes);
+				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
+			}
+			else if (word == "quaternions") {
+				vector<vec4> bdata;
+				bdata.resize(numbones*numframes);
+				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
 			}
 			else if (word == "material") {
 				int start, num;
@@ -141,7 +191,7 @@ public:
 					else if (key == "refl")
 						m.reflmap = new ImageTexture(value);
 					else if (key == "map_Bump")
-						m.normmap = new ImageTexture(value);
+						m.bumpmap = new ImageTexture(value);
 				}
 
 				if (!m.texture)
@@ -152,8 +202,8 @@ public:
 					m.emitmap = new SolidTexture(0, 0, 0, 1);
 				if (!m.reflmap)
 					m.reflmap = new SolidTexture(0, 0, 0, 1);
-				if (!m.normmap)
-					m.normmap = new SolidTexture(0, 0, 0, 1);
+				if (!m.bumpmap)
+					m.bumpmap = new SolidTexture(0.5, 0.5, 1, 1);
 
 				materials.push_back(m);
 				groups.push_back(make_pair(start, num));
@@ -167,16 +217,24 @@ public:
 		}
 
 		glBindVertexArray(0);
+
 	}
 
 	void draw(Program* prog) {
 		glBindVertexArray(this->vao);
+		if (boneparents)
+			prog->setUniform("boneparents", boneparents);
+		if (boneheads)
+			prog->setUniform("boneheads", boneheads);
+
+		//for debugging...
+		prog->setUniform("boneRotations[0]", boneRotations);
+
 		for (unsigned i = 0; i<groups.size(); ++i) {
 			prog->setUniform("tex", materials[i].texture);
 			prog->setUniform("etex", materials[i].emitmap);
 			prog->setUniform("stex", materials[i].specularmap);
 			prog->setUniform("rtex", materials[i].reflmap);
-			prog->setUniform("ntex", materials[i].normmap);
 			glDrawElements(GL_TRIANGLES, groups[i].second, GL_UNSIGNED_INT,
 				reinterpret_cast<GLvoid*>(groups[i].first * 4));
 		}

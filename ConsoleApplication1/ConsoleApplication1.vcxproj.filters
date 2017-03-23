@@ -590,6 +590,9 @@
     <ClInclude Include="Square.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="DataTexture.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fs.txt">

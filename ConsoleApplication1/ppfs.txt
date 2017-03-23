@@ -14,6 +14,7 @@ void main(){
             total += texture(tex,(v_texcoord + vec2(dx,dy)*texsize));
         }
     }
-    color = total/(numOfIterations * numOfIterations);
+	
+    color = total/(numOfIterations * numOfIterations) * 0.5;
     color.a=1.0;
 }
