@@ -14,8 +14,8 @@ public:
 		Texture* texture = NULL;
 		Texture* emitmap = NULL;
 		Texture* specularmap = NULL;
-		Texture* bumpmap = NULL;
 		Texture* reflmap = NULL;
+		Texture* bumpmap = NULL;
 	};
 	vector<Material> materials;
 	vector<pair<int, int> > groups;
@@ -24,12 +24,10 @@ public:
 	int numframes;
 	int numbones;
 	GLuint vao;
-	Texture* boneparents = NULL;
-	Texture* boneheads = NULL;
-
-
-	//for debugging...
-	vector<vec4> boneRotations;
+	Texture* boneparents = 0;
+	Texture* boneheads = 0;
+	Texture* bonematrices = 0;
+	Texture* bonequats = 0;
 
 	Mesh(string filename) {
 
@@ -44,7 +42,7 @@ public:
 		getline(fp, line);
 
 		if (line != "mesh_01sbr")
-			throw runtime_error("Incorrect mesh format: " + line + "; expected 'mesh01sbr'");
+			throw runtime_error("Incorrect mesh format: " + line + "; expected mesh_01sbr");
 
 		GLuint tmp[1];
 		glGenVertexArrays(1, tmp);
@@ -137,7 +135,6 @@ public:
 			}
 			else if (word == "numbones") {
 				iss >> this->numbones;
-				boneRotations.resize(32);
 			}
 			else if (word == "boneparents") {
 				vector<float> bdata;
@@ -159,14 +156,16 @@ public:
 				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
 			}
 			else if (word == "matrices") {
-				vector<mat4> bdata;
-				bdata.resize(numbones*numframes);
+				vector<vec4> bdata;
+				bdata.resize(numbones*numframes * 4);
 				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
+				bonematrices = new DataTexture(bdata, numframes * 4, numbones);
 			}
 			else if (word == "quaternions") {
 				vector<vec4> bdata;
 				bdata.resize(numbones*numframes);
 				fp.read((char*)&bdata[0], bdata.size() * sizeof(bdata[0]));
+				bonequats = new DataTexture(bdata, numframes, numbones);
 			}
 			else if (word == "material") {
 				int start, num;
@@ -203,7 +202,7 @@ public:
 				if (!m.reflmap)
 					m.reflmap = new SolidTexture(0, 0, 0, 1);
 				if (!m.bumpmap)
-					m.bumpmap = new SolidTexture(0.5, 0.5, 1, 1);
+					m.bumpmap = new SolidTexture(0.5, 0.5, 1.0, 1.0);
 
 				materials.push_back(m);
 				groups.push_back(make_pair(start, num));
@@ -211,7 +210,7 @@ public:
 			else if (word == "end")
 				break;
 			else {
-				cerr << word << "\n";
+				cerr << "Unknown word: " << word << "\n";
 				assert(0);
 			}
 		}
@@ -226,18 +225,21 @@ public:
 			prog->setUniform("boneparents", boneparents);
 		if (boneheads)
 			prog->setUniform("boneheads", boneheads);
-
-		//for debugging...
-		prog->setUniform("boneRotations[0]", boneRotations);
+		if (bonematrices)
+			prog->setUniform("bonematrices", bonematrices);
+		if (bonequats)
+			prog->setUniform("bonequats", bonequats);
 
 		for (unsigned i = 0; i<groups.size(); ++i) {
 			prog->setUniform("tex", materials[i].texture);
 			prog->setUniform("etex", materials[i].emitmap);
 			prog->setUniform("stex", materials[i].specularmap);
 			prog->setUniform("rtex", materials[i].reflmap);
+			prog->setUniform("bumpmap", materials[i].bumpmap);
 			glDrawElements(GL_TRIANGLES, groups[i].second, GL_UNSIGNED_INT,
 				reinterpret_cast<GLvoid*>(groups[i].first * 4));
 		}
 		prog->checkUninitialized();
 	}
 };
+

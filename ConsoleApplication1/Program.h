@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Texture.h"
-#include "ImageTexture.h"
-#include "CubeTexture.h"
+#include "Texture2D.h"
 #include "Texture2DArray.h"
 #include "math3d.h"
 #include "util.h"
+#include "CubeTexture.h"
 
 class Program {
 public:
@@ -13,6 +12,7 @@ public:
 	static const int TEXCOORD_INDEX = 1;
 	static const int NORMAL_INDEX = 2;
 	static const int TANGENT_INDEX = 3;
+	static const int BONE_INDEX = 4;
 
 	static Program* active;
 
@@ -33,6 +33,9 @@ public:
 		}
 		virtual void set(const vec2& value) {
 			throw runtime_error("Trying to set uniform " + name + " to a vec2");
+		}
+		virtual void set(const ivec2& value) {
+			throw runtime_error("Trying to set uniform " + name + " to an ivec2");
 		}
 		virtual void set(const vec3& value) {
 			throw runtime_error("Trying to set uniform " + name + " to a vec3");
@@ -63,14 +66,6 @@ public:
 		}
 	};
 
-	class IntSetter : public Setter {
-	public:
-		IntSetter(string name, int loc) : Setter(name, loc) {}
-		void set(float v) override {
-			glUniform1i(this->loc, (int)v);
-		}
-	};
-
 	class FloatSetter : public Setter {
 	public:
 		FloatSetter(string name, int loc) : Setter(name, loc) {}
@@ -79,11 +74,35 @@ public:
 		}
 	};
 
+	class IntSetter : public Setter {
+	public:
+		IntSetter(string name, int loc) : Setter(name, loc) {}
+		void set(float v) override {
+			glUniform1i(this->loc, (int)v);
+		}
+	};
+
+	class UIntSetter : public Setter {
+	public:
+		UIntSetter(string name, int loc) : Setter(name, loc) {}
+		void set(float v) override {
+			glUniform1ui(this->loc, (unsigned)v);
+		}
+	};
+
 	class Vec2Setter : public Setter {
 	public:
 		Vec2Setter(string name, int loc) : Setter(name, loc) {}
 		void set(const vec2& v) override {
 			glUniform2f(this->loc, v.x, v.y);
+		}
+	};
+
+	class IVec2Setter : public Setter {
+	public:
+		IVec2Setter(string name, int loc) : Setter(name, loc) {}
+		void set(const ivec2& v) override {
+			glUniform2i(this->loc, v.x, v.y);
 		}
 	};
 
@@ -217,21 +236,30 @@ public:
 	map<string, Setter*> setters;
 	GLuint prog;
 	string name;
+	bool is_compute_shader;
+
+	Program(string csfname) {
+		init("", "", "", csfname, {});
+	}
 
 	Program(string vsfname, string fsfname, const vector<string>& outputs) {
-		init(vsfname, "", fsfname, outputs);
+		init(vsfname, "", fsfname, "", outputs);
 	}
 
 	Program(string vsfname, string gsfname, string fsfname, const vector<string>& outputs) {
-		init(vsfname, gsfname, fsfname, outputs);
+		init(vsfname, gsfname, fsfname, "", outputs);
 	}
 
-	void init(string vsfname, string gsfname, string fsfname, const vector<string>& outputs) {
+	void init(string vsfname, string gsfname, string fsfname, string csfname, const vector<string>& outputs) {
 
-		this->name = vsfname + " " + gsfname + " " + fsfname;
+		if (csfname.length() > 0)
+			is_compute_shader = true;
+		else
+			is_compute_shader = false;
+
+		this->name = vsfname + " " + gsfname + " " + fsfname + " " + csfname;
 
 		GLint tmp[1];
-
 
 		GLuint vs = 0;
 		if (vsfname.length() > 0)
@@ -242,6 +270,9 @@ public:
 		GLuint fs = 0;
 		if (fsfname.length() > 0)
 			fs = this->make_shader(fsfname, GL_FRAGMENT_SHADER);
+		GLuint cs = 0;
+		if (csfname.length() > 0)
+			cs = this->make_shader(csfname, GL_COMPUTE_SHADER);
 
 		prog = glCreateProgram();
 		if (vs)
@@ -250,11 +281,14 @@ public:
 			glAttachShader(prog, gs);
 		if (fs)
 			glAttachShader(prog, fs);
+		if (cs)
+			glAttachShader(prog, cs);
 
 		glBindAttribLocation(prog, Program::POSITION_INDEX, "a_position");
 		glBindAttribLocation(prog, Program::TEXCOORD_INDEX, "a_texcoord");
 		glBindAttribLocation(prog, Program::NORMAL_INDEX, "a_normal");
 		glBindAttribLocation(prog, Program::TANGENT_INDEX, "a_tangent");
+		glBindAttribLocation(prog, Program::BONE_INDEX, "a_boneidx");
 
 		for (unsigned i = 0; i<outputs.size(); ++i)
 			glBindFragDataLocation(prog, i, outputs[i].c_str());
@@ -292,14 +326,19 @@ public:
 			string name = namea;
 			int loc = glGetUniformLocation(prog, name.c_str());
 			uninitialized.insert(name);
-
 			if (size[0] == 1) {
 				switch (type_[0]) {
 				case GL_INT:
 					setters[name] = new IntSetter(name, loc);
 					break;
+				case GL_UNSIGNED_INT:
+					setters[name] = new UIntSetter(name, loc);
+					break;
 				case GL_FLOAT:
 					setters[name] = new FloatSetter(name, loc);
+					break;
+				case GL_INT_VEC2:
+					setters[name] = new IVec2Setter(name, loc);
 					break;
 				case GL_FLOAT_VEC2:
 					setters[name] = new Vec2Setter(name, loc);
@@ -376,6 +415,7 @@ public:
 		}
 	}
 
+
 	void checkUninitialized() {
 		for (const string& s : uninitialized) {
 			cout << "Uninitialized uniform: " << s << "\n";
@@ -385,6 +425,15 @@ public:
 	void use() {
 		glUseProgram(this->prog);
 		Program::active = this;
+	}
+
+	void dispatch(int xs, int ys, int zs) {
+		if (active != this)
+			throw runtime_error("Cannot dispatch() a non-active program");
+		if (!is_compute_shader)
+			throw runtime_error("Cannot dispatch() a non-compute shader");
+		glDispatchCompute(xs, ys, zs);
+		glMemoryBarrier(GL_ALL_BARRIER_BITS);
 	}
 
 	GLuint make_shader(string filename, GLenum shadertype) {

@@ -113,6 +113,11 @@ public:
 			}
 		}
 
+	}
+
+	void robotDraw(Program* prog) {
+		prog->setUniform("ntex", this->bricks_n);
+		prog->setUniform("frame", 1.f);
 		for (auto R : robots) {
 			R->draw(prog);
 		}

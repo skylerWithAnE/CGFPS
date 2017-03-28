@@ -345,6 +345,7 @@
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="bonevs.txt" />
     <Text Include="fs.txt" />
     <Text Include="fsd.txt" />
     <Text Include="map.txt" />

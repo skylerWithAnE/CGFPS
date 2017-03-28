@@ -13,7 +13,7 @@ public:
 
 	Robot(vec3 pos) {
 		if (mesh == NULL)
-			mesh = new Mesh("assets/untitled.obj.mesh");
+			mesh = new Mesh("assets/robot.ms3d.mesh");
 		this->pos = pos;
 		this->vel = vec3(
 			randrange(-0.00001, 0.00001),
@@ -36,3 +36,6 @@ public:
 		Robot::mesh->draw(prog);
 	}
 };
+
+
+

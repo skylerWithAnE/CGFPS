@@ -94,6 +94,7 @@ int main(int argc, char* argv[])
 	Program* prog = new Program("vs.txt", "fs.txt", { "color" });
 	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt", { "color" });
 	Program* specprog = new Program("vss.txt", "fss.txt", { "color" });
+	Program* boneprog = new Program("bonevs.txt", "fs.txt", { "color" });
 
     //view camera
     Camera* cam = new Camera();
@@ -174,6 +175,13 @@ int main(int argc, char* argv[])
         cam->draw(prog);
         prog->setUniform("lightPos",cam->eye.xyz());
         world->draw(prog);
+
+		boneprog->use();
+		boneprog->setUniform("lightPos", cam->eye.xyz());
+		boneprog->setUniform("roughness", 0.f);
+		boneprog->setUniform("worldMatrix", translation(vec3(0.f, 0.f, 0.f)));
+		cam->draw(boneprog);
+		world->robotDraw(boneprog);
 		fbo1->unbind();
 
         //fbo2->bind();
