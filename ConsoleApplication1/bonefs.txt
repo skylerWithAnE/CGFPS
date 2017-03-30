@@ -1,0 +1,20 @@
+#version 150
+
+uniform sampler2D tex;
+uniform vec3 lightPos;
+
+in vec2 v_texcoord;
+in vec3 v_normal;
+in vec3 v_worldPos;
+
+out vec4 color;
+
+void main(){
+    vec3 N = normalize(v_normal);
+    vec3 L = normalize(lightPos - v_worldPos);
+    float dp = clamp( dot(N,L), 0.0, 1.0 );
+    
+    color = texture(tex,v_texcoord);
+    color.rgb *= dp ;
+
+}

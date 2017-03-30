@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
 	Program* prog = new Program("vs.txt", "fs.txt", { "color" });
 	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt", { "color" });
 	Program* specprog = new Program("vss.txt", "fss.txt", { "color" });
-	Program* boneprog = new Program("bonevs.txt", "fs.txt", { "color" });
+	Program* boneprog = new Program("bonevs.txt", "bonefs.txt", { "color" });
 
     //view camera
     Camera* cam = new Camera();

@@ -622,6 +622,9 @@
     <Text Include="bonevs.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="bonefs.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile">
