@@ -19,6 +19,8 @@ uniform sampler2D boneheads;
 
 uniform float frame;
 
+out float debug;
+
 vec4 qmul( vec4 q, vec4 r ){
     return vec4(
         q.w*r.xyz + r.w*q.xyz + cross(q.xyz,r.xyz),
@@ -52,6 +54,10 @@ vec4 computePos( vec4 p, int boneidx, float frame ){
         p.xyz = (qmul( q, qmul( vec4(p.xyz,0.0) , vec4(-q.xyz,q.w) ) )).xyz;
         p.xyz += p.w * headpos.xyz;
         
+		if( boneidx == int(parent) ){
+			debug=1.0;
+			return p;
+		}
         boneidx = int(parent);
     }
     return p;
@@ -59,6 +65,7 @@ vec4 computePos( vec4 p, int boneidx, float frame ){
 
 
 void main(){
+debug=0.0;
     vec4 p = vec4(a_position,1.0);
     p = computePos(p,int(a_boneidx),frame);
 	

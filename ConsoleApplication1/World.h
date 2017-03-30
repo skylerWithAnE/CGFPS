@@ -21,8 +21,10 @@ public:
 	ImageTexture* ceiltex;
 	ImageTexture* ceil_n;
 	ImageTexture* ceil_s;
+	float currFrame;
 
 	World() {
+		currFrame = 1.f;
 		ifstream fp("map.txt");
 		if (!fp)
 			throw runtime_error("Cannot load map.txt");
@@ -36,6 +38,18 @@ public:
 		}
 		numrows = int(lines.size());
 		numcols = int(lines[0].size());
+
+
+		for (unsigned i = 0; i<lines.size(); ++i) {
+			for (unsigned j = 0; j<lines[i].size(); ++j) {
+				if (lines[i][j] == 'R') {
+					lines[i][j] = ' ';
+					robots.push_back(new Robot(vec3(float(j * 2), 0, float(i * 2))));
+				}
+			}
+		}
+
+		
 
 		cube = new Cube();
 		bricks = new ImageTexture("assets/T_Brick_Clay_New_D.png");
@@ -53,14 +67,7 @@ public:
 		//floortex_s = new ImageTexture("")
 		//ceiltex = new ImageTexture("ceiling.png");
 
-		for (unsigned i = 0; i<lines.size(); ++i) {
-			for (unsigned j = 0; j<lines[i].size(); ++j) {
-				if (lines[i][j] == 'R') {
-					lines[i][j] = ' ';
-					robots.push_back(new Robot(vec3(float(j * 2), 0, float(i * 2))));
-				}
-			}
-		}
+		
 	}
 
 	void update(int elapsed) {
@@ -116,10 +123,14 @@ public:
 	}
 
 	void robotDraw(Program* prog) {
+		currFrame += 0.1;
+		if (currFrame > 45.f)
+			currFrame = 0.f;
 		prog->setUniform("ntex", this->bricks_n);
-		prog->setUniform("frame", 1.f);
+		prog->setUniform("frame", currFrame);
 		for (auto R : robots) {
 			R->draw(prog);
 		}
+		
 	}
 };

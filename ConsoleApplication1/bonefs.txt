@@ -9,7 +9,13 @@ in vec3 v_worldPos;
 
 out vec4 color;
 
+in float debug;
+
 void main(){
+if(debug != 0.0 ){
+color = vec4(1,0,1,1); return;
+}
+	
     vec3 N = normalize(v_normal);
     vec3 L = normalize(lightPos - v_worldPos);
     float dp = clamp( dot(N,L), 0.0, 1.0 );

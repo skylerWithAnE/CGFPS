@@ -169,19 +169,21 @@ int main(int argc, char* argv[])
             cam->strafe(0,-0.01f*elapsed,0);
 
 		fbo1->bind();
-		
-        prog->use();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		boneprog->use();
+		boneprog->setUniform("lightPos", cam->eye.xyz());
+		boneprog->setUniform("roughness", 0.f);
+		//boneprog->setUniform("worldMatrix", translation(vec3(0.f, 0.f, 0.f)));
+		cam->draw(boneprog);
+		world->robotDraw(boneprog);
+
+        prog->use();
         cam->draw(prog);
         prog->setUniform("lightPos",cam->eye.xyz());
         world->draw(prog);
 
-		boneprog->use();
-		boneprog->setUniform("lightPos", cam->eye.xyz());
-		boneprog->setUniform("roughness", 0.f);
-		boneprog->setUniform("worldMatrix", translation(vec3(0.f, 0.f, 0.f)));
-		cam->draw(boneprog);
-		world->robotDraw(boneprog);
+		
 		fbo1->unbind();
 
         //fbo2->bind();

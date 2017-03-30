@@ -6,6 +6,7 @@
 class Robot {
 public:
 	static Mesh* mesh;
+
 	vec3 pos;
 	vec3 vel;
 	float timeleft;
