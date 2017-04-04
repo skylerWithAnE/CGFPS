@@ -123,8 +123,8 @@ public:
 	}
 
 	void robotDraw(Program* prog) {
-		currFrame += 0.1;
-		if (currFrame > 45.f)
+		currFrame += 0.8f;
+		if (currFrame > 40.f)
 			currFrame = 0.f;
 		prog->setUniform("ntex", this->bricks_n);
 		prog->setUniform("frame", currFrame);

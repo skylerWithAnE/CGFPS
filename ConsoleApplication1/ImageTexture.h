@@ -29,7 +29,7 @@ class ImageTexture: public Texture2D {
         
         //PNG is big-endian...This only matters
         //for 16 bit images
-        glPixelStorei(GL_UNPACK_SWAP_BYTES,GL_TRUE);
+       // glPixelStorei(GL_UNPACK_SWAP_BYTES,GL_TRUE); //remove
 
         //size of external data being passed in
         GLenum esize = ( (depth == 16) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE );
