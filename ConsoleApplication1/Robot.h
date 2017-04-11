@@ -33,7 +33,10 @@ public:
 		}
 	}
 	void draw(Program* prog) {
-		prog->setUniform("worldMatrix", translation(this->pos));
+		mat4 transform;
+		transform = translation(this->pos);
+		transform = axisRotation(vec4(0, 0, 1, 0), 90.f);
+		prog->setUniform("worldMatrix", transform);
 		Robot::mesh->draw(prog);
 	}
 };
