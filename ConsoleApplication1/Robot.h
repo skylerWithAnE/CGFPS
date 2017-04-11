@@ -14,7 +14,7 @@ public:
 
 	Robot(vec3 pos) {
 		if (mesh == NULL)
-			mesh = new Mesh("assets/robot.ms3d.mesh");
+			mesh = new Mesh("assets/zombie_dying.dae.ms3d.mesh");
 		this->pos = pos;
 		this->vel = vec3(
 			randrange(-0.00001, 0.00001),

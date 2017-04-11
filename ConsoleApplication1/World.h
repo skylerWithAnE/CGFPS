@@ -78,47 +78,47 @@ public:
 	void draw(Program* prog) {
 
 
-		SolidTexture* black = new SolidTexture(0, 0, 0, 1);
-		prog->setUniform("etex", black);
-		//FIXME: We could make this more efficient by building one big mesh...
-		prog->setUniform("roughness", 1.0f);
-		prog->setUniform("tex", ceiltex);
-		prog->setUniform("stex", ceil_s);
-		prog->setUniform("ntex", ceil_n);
-		for (int r = 0; r<numrows; ++r) {
-			for (int c = 0; c<numcols; ++c) {
-				prog->setUniform("worldMatrix",
-					translation(vec3(float(c * 2), 3, float(r * 2))));
-				cube->draw(prog);
-			}
-		}
-		prog->setUniform("tex", floortex);
-		prog->setUniform("ntex", floor_n);
-		prog->setUniform("worldMatrix", mat4::identity());
-		for (int r = 0; r<numrows; ++r) {
-			for (int c = 0; c<numcols; ++c) {
-				prog->setUniform("worldMatrix",
-					translation(vec3(float(c * 2), -1, float(r * 2))));
-				cube->draw(prog);
-			}
-		}
-		prog->setUniform("roughness", 2.0f);
-		prog->setUniform("tex", this->bricks);
-		prog->setUniform("stex", this->bricks_s);
-		prog->setUniform("ntex", this->bricks_n);
-		for (int r = 0; r<(int)this->lines.size(); ++r) {
-			string& L = this->lines[r];
-			for (int c = 0; c<(int)L.size(); ++c) {
-				if (L[c] == '*') {
-					//prog->setUniform("tex", this->bricks);
-					//prog->setUniform("stex", this->bricks_s);
-					//prog->setUniform("ntex", this->bricks_n);
-					prog->setUniform("worldMatrix",
-						translation(vec3(float(c * 2), 1.0f, float(r * 2))));
-					cube->draw(prog);
-				}
-			}
-		}
+		//SolidTexture* black = new SolidTexture(0, 0, 0, 1);
+		//prog->setUniform("etex", black);
+		////FIXME: We could make this more efficient by building one big mesh...
+		//prog->setUniform("roughness", 1.0f);
+		//prog->setUniform("tex", ceiltex);
+		//prog->setUniform("stex", ceil_s);
+		//prog->setUniform("ntex", ceil_n);
+		//for (int r = 0; r<numrows; ++r) {
+		//	for (int c = 0; c<numcols; ++c) {
+		//		prog->setUniform("worldMatrix",
+		//			translation(vec3(float(c * 2), 3, float(r * 2))));
+		//		cube->draw(prog);
+		//	}
+		//}
+		//prog->setUniform("tex", floortex);
+		//prog->setUniform("ntex", floor_n);
+		//prog->setUniform("worldMatrix", mat4::identity());
+		//for (int r = 0; r<numrows; ++r) {
+		//	for (int c = 0; c<numcols; ++c) {
+		//		prog->setUniform("worldMatrix",
+		//			translation(vec3(float(c * 2), -1, float(r * 2))));
+		//		cube->draw(prog);
+		//	}
+		//}
+		//prog->setUniform("roughness", 2.0f);
+		//prog->setUniform("tex", this->bricks);
+		//prog->setUniform("stex", this->bricks_s);
+		//prog->setUniform("ntex", this->bricks_n);
+		//for (int r = 0; r<(int)this->lines.size(); ++r) {
+		//	string& L = this->lines[r];
+		//	for (int c = 0; c<(int)L.size(); ++c) {
+		//		if (L[c] == '*') {
+		//			//prog->setUniform("tex", this->bricks);
+		//			//prog->setUniform("stex", this->bricks_s);
+		//			//prog->setUniform("ntex", this->bricks_n);
+		//			prog->setUniform("worldMatrix",
+		//				translation(vec3(float(c * 2), 1.0f, float(r * 2))));
+		//			cube->draw(prog);
+		//		}
+		//	}
+		//}
 
 	}
 
