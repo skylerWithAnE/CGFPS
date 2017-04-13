@@ -1,0 +1,23 @@
+#version 150
+
+uniform vec4 lightPos;
+uniform vec4 lightColor;
+uniform mat4 viewMatrix;
+uniform mat4 projMatrix;
+uniform vec3 hitheryon;
+uniform sampler2D shadowbuffer;
+
+//get world space point
+//pe = worldSpacePoint*light_viewMatrix;
+//ps = worldSpacePoint*light_projMatrix;
+//do homogenous divide
+//map results x,y from -1...1 range to 0...1 range. (call this tc)
+//fetch texel from the shadowbuffer texture at tc, call it t
+	//remap from 0...1 to hither...yon
+//if (-pe.z < 0 or -pe.z > t+0.005)
+	//{		shadowed	}
+//else {	not shadowed	}
+
+void main() {
+
+}

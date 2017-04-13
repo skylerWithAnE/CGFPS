@@ -84,7 +84,8 @@ int main(int argc, char* argv[])
     Mix_Chunk* pew = Mix_LoadWAV("pew.ogg");
 
 	Framebuffer2D* fbo1 = new Framebuffer2D(1300, 700, 2);   
-	Framebuffer2D* fbo2 = new Framebuffer2D(1300, 700, 2);   //new
+	//Framebuffer2D* fbo2 = new Framebuffer2D(1300, 700, 2);   //new
+	Framebuffer2D* shadowbuffer = new Framebuffer2D(512, 512, 1, GL_R32F, GL_FLOAT);
     
     World* world = new World();
 	Square* usq = new Square();
@@ -95,6 +96,8 @@ int main(int argc, char* argv[])
 	Program* postprocprog = new Program("ppvs.txt", "ppfs.txt", { "color" });
 	Program* specprog = new Program("vss.txt", "fss.txt", { "color" });
 	Program* boneprog = new Program("bonevs.txt", "bonefs.txt", { "color" });
+	Program* sbprog = new Program("sbvs.txt", "sbfs.txt", {});
+	Program* shadowprog = new Program("shadowvs.txt", "shadowfs.txt", {});
 
     //view camera
     Camera* cam = new Camera();
@@ -168,13 +171,35 @@ int main(int argc, char* argv[])
         if(keys.find(SDLK_k) != keys.end() )
             cam->strafe(0,-0.01f*elapsed,0);
 
+		//Shadow buffer
+		sbprog->use();
+		shadowbuffer->bind();
+
+		sbprog->setUniform("viewMatrix", cam->viewmatrix);
+		sbprog->setUniform("projMatrix", cam->projmatrix);
+		vec3 hyymh = vec3(cam->hither, cam->yon, cam->yon - cam->hither);
+		sbprog->setUniform("hitheryon", hyymh);
+		world->robotDraw(sbprog);
+		world->draw(sbprog);
+
+		shadowbuffer->unbind();
+
+		shadowprog->use();
+		shadowprog->setUniform("lightPos", cam->eye);
+		shadowprog->setUniform("lightColor", vec4(1.f, 1.f, 1.f, 1.f));
+		shadowprog->setUniform("viewMatrix", cam->viewmatrix);
+		shadowprog->setUniform("projMatrix", cam->projmatrix);
+		shadowprog->setUniform("hitheryon", hyymh);
+		shadowprog->setUniform("shadowbuffer", shadowbuffer->texture);
+
+
+
 		fbo1->bind();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		boneprog->use();
 		boneprog->setUniform("lightPos", cam->eye.xyz());
 		boneprog->setUniform("roughness", 0.f);
-		//boneprog->setUniform("worldMatrix", translation(vec3(0.f, 0.f, 0.f)));
 		cam->draw(boneprog);
 		world->robotUpdate(elapsed);
 		world->robotDraw(boneprog);
@@ -186,6 +211,10 @@ int main(int argc, char* argv[])
         world->draw(prog);
 
 		fbo1->unbind();
+
+	
+
+
 
         //fbo2->bind();
 		postprocprog->use();
