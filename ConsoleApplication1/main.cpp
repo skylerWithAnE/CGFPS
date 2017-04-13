@@ -176,14 +176,15 @@ int main(int argc, char* argv[])
 		boneprog->setUniform("roughness", 0.f);
 		//boneprog->setUniform("worldMatrix", translation(vec3(0.f, 0.f, 0.f)));
 		cam->draw(boneprog);
+		world->robotUpdate(elapsed);
 		world->robotDraw(boneprog);
+		
 
         prog->use();
         cam->draw(prog);
         prog->setUniform("lightPos",cam->eye.xyz());
         world->draw(prog);
 
-		
 		fbo1->unbind();
 
         //fbo2->bind();
@@ -208,7 +209,6 @@ int main(int argc, char* argv[])
 			cout << "GL error: " << hex << err << "\n";
 			err = glGetError();
 		} 
-
         SDL_GL_SwapWindow(win);
     } //endwhile
     

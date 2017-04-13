@@ -49,7 +49,6 @@ public:
 		this->vao = tmp[0];
 		glBindVertexArray(this->vao);
 
-
 		while (true) {
 			getline(fp, line);
 			if (fp.fail()) {
@@ -214,9 +213,7 @@ public:
 				assert(0);
 			}
 		}
-
 		glBindVertexArray(0);
-
 	}
 
 	void draw(Program* prog) {
@@ -242,4 +239,3 @@ public:
 		prog->checkUninitialized();
 	}
 };
-
