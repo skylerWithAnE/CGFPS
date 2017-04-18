@@ -86,7 +86,7 @@ public:
 		}
 		prog->setUniform("tex", floortex);
 		prog->setUniform("ntex", floor_n);
-		prog->setUniform("worldMatrix", mat4::identity());
+		//prog->setUniform("worldMatrix", mat4::identity());
 		for (int r = 0; r<numrows; ++r) {
 			for (int c = 0; c<numcols; ++c) {
 				prog->setUniform("worldMatrix",
@@ -102,9 +102,6 @@ public:
 			string& L = this->lines[r];
 			for (int c = 0; c<(int)L.size(); ++c) {
 				if (L[c] == '*') {
-					//prog->setUniform("tex", this->bricks);
-					//prog->setUniform("stex", this->bricks_s);
-					//prog->setUniform("ntex", this->bricks_n);
 					prog->setUniform("worldMatrix",
 						translation(vec3(float(c * 2), 1.0f, float(r * 2))));
 					cube->draw(prog);
@@ -122,11 +119,11 @@ public:
 	}
 
 	void robotUpdate(int elapsed) {
-		currFrame += 0.8f;
+		/*currFrame += 0.8f;
 		if (currFrame > 40.f)
 			currFrame = 0.f;
 		for (auto R : robots) {
-			R->update(elapsed);
-		}
+			R->update(elapsed);*/
+		//}
 	}
 };

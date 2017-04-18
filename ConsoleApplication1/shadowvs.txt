@@ -1,19 +1,21 @@
 #version 150
 
 in vec2 a_texcoord;
+in vec3 a_position;
+in vec3 a_normal;
 
-uniform worldMatrix;
-uniform viewProjMatrix;
+uniform mat4 worldMatrix;
+uniform mat4 projMatrix;
 
-out vec4 v_normal;
-out vec4 v_worldPos;
+out vec3 v_normal;
+out vec3 v_worldPos;
 out vec2 v_texcoord;
 
 void main() {
-	vec4 p = a_position * worldMatrix;
-	vec4 n = a_normal * worldMatrix;
-	v_normal = n;
-	v_worldPos = p;
+	vec4 p = vec4(a_position,1.0) * worldMatrix;
+	vec4 n = vec4(a_normal,1.0) * worldMatrix;
+	v_normal = n.xyz;
+	v_worldPos = p.xyz;
 	v_texcoord = a_texcoord;
-	gl_Position = p * viewProjMatrix;
+	gl_Position = p * projMatrix;
 }

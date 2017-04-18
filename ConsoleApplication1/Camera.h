@@ -18,7 +18,7 @@ class Camera{
     Camera(){
         fov_h=45;
         hither=0.1f;
-        yon=1000.0f;
+        yon=100.0f;
         aspect_ratio=1.0f;
         fov_v = 1.0f/aspect_ratio*fov_h;
         eye = vec4(0,0,0,1);
