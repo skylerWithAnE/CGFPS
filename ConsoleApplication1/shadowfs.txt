@@ -60,7 +60,6 @@ void main() {
 	float diffuseProduct = clamp( dot(L,N), 0.0, 1.0);
 	vec4 diffuse = texture2D(tex,v_texcoord);
 	diffuse *= litpct*lightColor;
-
 	
 	color = diffuse;
 
