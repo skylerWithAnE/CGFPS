@@ -58,9 +58,8 @@ void main() {
 	litpct = clamp(litpct,0.0,1.0);
 
 	float diffuseProduct = clamp( dot(L,N), 0.0, 1.0);
-	vec4 diffuse = texture2D(tex,v_texcoord);
-	diffuse *= litpct*lightColor;
-	
-	color = diffuse;
+	vec4 diffuse = litpct * diffuseProduct*lightColor;
+	vec4 texc = texture2D(tex, v_texcoord);
+	color = diffuse * texc;
 
 }

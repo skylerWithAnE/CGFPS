@@ -103,11 +103,9 @@ int main(int argc, char* argv[])
     Camera* cam = new Camera();
     cam->look_at(vec3(5,1,5), vec3(10,1,10), vec3(0,1,0) );
 	Camera* lightCamera = new Camera();
-	cam->hither = 0.01f;
-	lightCamera->yon = 50.f;
-	lightCamera->walk(0.3f);
-	lightCamera->strafe(6.f, -1.f, 0.f);
-	lightCamera->look_at(vec3(5.3, 1.f, 5.5), vec3(10, 1, 10), vec3(0, 1, 0));
+	//cam->hither = 0.01f;
+	//lightCamera->yon = 50.f;
+	lightCamera->look_at(vec3(5.3, 0.6f, 5.3), vec3(10, 1, 10), vec3(0, 1, 0));
 	
 
 
@@ -162,7 +160,7 @@ int main(int argc, char* argv[])
 				cam->turn(-0.01f*dx);
 				cam->tilt(-0.01f*dy);
 				lightCamera->turn(-0.01f*dx);
-				//lightCamera->tilt(-0.01f*dy);
+				lightCamera->tilt(-0.01f*dy);
 			}
 		}
 
