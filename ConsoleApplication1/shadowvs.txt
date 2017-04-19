@@ -6,6 +6,7 @@ in vec3 a_normal;
 
 uniform mat4 worldMatrix;
 uniform mat4 projMatrix;
+uniform mat4 viewMatrix;
 
 out vec3 v_normal;
 out vec3 v_worldPos;
@@ -17,5 +18,8 @@ void main() {
 	v_normal = n.xyz;
 	v_worldPos = p.xyz;
 	v_texcoord = a_texcoord;
-	gl_Position = p * projMatrix;
+
+	p = p * viewMatrix;
+	p = p * projMatrix;
+	gl_Position = p;
 }

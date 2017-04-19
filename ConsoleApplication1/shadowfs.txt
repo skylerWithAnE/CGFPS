@@ -9,8 +9,8 @@ out vec4 color;
 uniform vec4 lightPos;
 uniform vec4 lightColor;
 uniform vec3 eyePos;
-uniform mat4 viewMatrix;
-uniform mat4 projMatrix;
+uniform mat4 lightViewMatrix;
+uniform mat4 lightProjMatrix;
 uniform vec3 hitheryon;
 
 uniform float scaleFactor;
@@ -39,13 +39,13 @@ void main() {
 	vec3 L = lightPos.xyz - v_worldPos;
 	L = normalize(L);
 
-	vec4 tmp = vec4(v_worldPos,1.0) * viewMatrix;
+	vec4 tmp = vec4(v_worldPos,1.0) * lightViewMatrix;
 	float z1 = tmp.z;
 	z1 = -z1;
 	z1 = (z1-hitheryon[0]) / hitheryon[2];
 	z1 *= scaleFactor;
 
-	tmp = tmp*projMatrix;
+	tmp = tmp*lightProjMatrix;
 	tmp.xy /= tmp.w;
 	tmp.xy = 0.5*(tmp.xy + vec2(1.0));
 

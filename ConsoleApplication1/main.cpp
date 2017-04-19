@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 	Program* specprog = new Program("vss.txt", "fss.txt", { "color" });
 	Program* boneprog = new Program("bonevs.txt", "bonefs.txt", { "color" });
 	Program* sbprog = new Program("sbvs.txt", "sbfs.txt", {});
-	Program* shadowprog = new Program("vs.txt", "shadowfs.txt", {"color"});
+	Program* shadowprog = new Program("shadowvs.txt", "shadowfs.txt", {"color"});
 
     //view camera
     Camera* cam = new Camera();
@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
 	lightCamera->yon = 50.f;
 	lightCamera->walk(0.3f);
 	lightCamera->strafe(6.f, -1.f, 0.f);
-	lightCamera->look_at(vec3(5.3, 0.6, 5.5), vec3(10, 1, 10), vec3(0, 1, 0));
+	lightCamera->look_at(vec3(5.3, 1.f, 5.5), vec3(10, 1, 10), vec3(0, 1, 0));
 	
 
 
@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
 				cam->turn(-0.01f*dx);
 				cam->tilt(-0.01f*dy);
 				lightCamera->turn(-0.01f*dx);
-				lightCamera->tilt(-0.01f*dy);
+				//lightCamera->tilt(-0.01f*dy);
 			}
 		}
 
@@ -219,7 +219,7 @@ int main(int argc, char* argv[])
 		sbprog->use();
 		if(!shadow_buffer_debug)
 			shadowbuffer->bind();
-		glClearColor(1.f, 1.f, 1.f, 1.f); 
+		//glClearColor(1.f, 1.f, 1.f, 1.f); 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		vec3 hyymh = vec3(lightCamera->hither, lightCamera->yon, lightCamera->yon - lightCamera->hither);
 		sbprog->setUniform("hitheryon", hyymh);
@@ -235,9 +235,10 @@ int main(int argc, char* argv[])
 			shadowprog->use();
 			shadowprog->setUniform("lightPos", lightCamera->eye);
 			shadowprog->setUniform("lightColor", vec4(1.f, 1.f, 1.f, 1.f));
+			shadowprog->setUniform("lightViewMatrix", lightCamera->viewmatrix);
+			shadowprog->setUniform("lightProjMatrix", lightCamera->projmatrix);
 			shadowprog->setUniform("hitheryon", hyymh);
 			shadowprog->setUniform("shadowbuffer", shadowbuffer->texture);
-			shadowprog->setUniform("lightDir", (-1 * lightCamera->W));
 			shadowprog->setUniform("magicConst", 15.0f);
 			shadowprog->setUniform("scaleFactor", 5.0f);
 			cam->draw(shadowprog);
