@@ -631,6 +631,12 @@
     <Text Include="shadowvs.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="sbfs.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="sbvs.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile">

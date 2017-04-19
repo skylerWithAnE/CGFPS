@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 	Program* specprog = new Program("vss.txt", "fss.txt", { "color" });
 	Program* boneprog = new Program("bonevs.txt", "bonefs.txt", { "color" });
 	Program* sbprog = new Program("sbvs.txt", "sbfs.txt", {});
-	Program* shadowprog = new Program("shadowvs.txt", "shadowfs.txt", {"color"});
+	Program* shadowprog = new Program("vs.txt", "shadowfs.txt", {"color"});
 
     //view camera
     Camera* cam = new Camera();
@@ -173,12 +173,11 @@ int main(int argc, char* argv[])
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
 		//Shadow buffer
 		sbprog->use();
 		shadowbuffer->bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		sbprog->setUniform("viewMatrix", cam->viewmatrix);
 		sbprog->setUniform("projMatrix", cam->projmatrix);
 		vec3 hyymh = vec3(cam->hither, cam->yon, cam->yon - cam->hither);
@@ -187,15 +186,17 @@ int main(int argc, char* argv[])
 		world->draw(sbprog);
 		world->robotDraw(sbprog);
 		
-
 		shadowbuffer->unbind();
 
+		//Draw with shadow buffer.
 		shadowprog->use();
 		shadowprog->setUniform("lightPos", cam->eye);
 		shadowprog->setUniform("lightColor", vec4(1.f, 1.f, 1.f, 1.f));
 		shadowprog->setUniform("hitheryon", hyymh);
 		shadowprog->setUniform("shadowbuffer", shadowbuffer->texture);
-		shadowprog->setUniform("lightDir", (-1 *cam->W));
+		shadowprog->setUniform("lightDir", (-1 * cam->W));
+		shadowprog->setUniform("magicConst", 15.0f);
+		shadowprog->setUniform("scaleFactor", 5.0f);
 		cam->draw(shadowprog);
 		world->draw(shadowprog);
 		world->robotDraw(shadowprog);
@@ -205,18 +206,18 @@ int main(int argc, char* argv[])
 		//fbo1->bind();
         
 		
-	/*	boneprog->use();
-		boneprog->setUniform("lightPos", cam->eye.xyz());
-		boneprog->setUniform("roughness", 0.f);
-		cam->draw(boneprog);
-		world->robotUpdate(elapsed);
-		world->robotDraw(boneprog);*/
-		
+		//boneprog->use();
+		//boneprog->setUniform("lightPos", cam->eye.xyz());
+		//boneprog->setUniform("roughness", 0.f);
+		//cam->draw(boneprog);
+		//world->robotUpdate(elapsed);
+		//world->robotDraw(boneprog);
+		//
 
-        //prog->use();
-        //cam->draw(prog);
-        //prog->setUniform("lightPos",cam->eye.xyz());
-        //world->draw(prog);
+  //      prog->use();
+  //      cam->draw(prog);
+  //      prog->setUniform("lightPos",cam->eye.xyz());
+  //      world->draw(prog);
 
 
 		//***BLUR DISABLED atm

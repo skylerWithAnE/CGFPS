@@ -1,21 +1,24 @@
 #version 150
 
-uniform vec4 lightPos;
-uniform vec4 lightColor;
-uniform vec4 lightDir;
-
-uniform mat4 viewMatrix;
-uniform mat4 projMatrix;
-uniform vec3 hitheryon;
-
-uniform sampler2D shadowbuffer;
-uniform sampler2D tex;
-
 in vec2 v_texcoord;
 in vec3 v_worldPos;
 in vec3 v_normal;
 
 out vec4 color;
+
+uniform vec4 lightPos;
+uniform vec4 lightColor;
+uniform vec4 lightDir;
+uniform vec3 eyePos;
+uniform mat4 viewMatrix;
+uniform mat4 projMatrix;
+uniform vec3 hitheryon;
+
+uniform float scaleFactor;
+uniform float magicConst;
+uniform sampler2D shadowbuffer;
+uniform sampler2D tex;
+uniform sampler2D stex;
 
 //get world space point
 //pe = worldSpacePoint*light_viewMatrix;
@@ -29,34 +32,37 @@ out vec4 color;
 //else {	not shadowed	}
 
 void main() {
-	float bias = 1.0;
-	vec4 pw;
-	pw.xyz = v_worldPos;
-	pw = pw * viewMatrix;
-	float z1 = -pw.z;
-	pw = pw * projMatrix;
-	pw /= pw.w;	//homogenous divide
-	pw = 0.5 * (pw + 1.0);
-
+	
 	vec3 N = normalize(v_normal);
-	vec3 L = -lightDir.xyz;
+	vec3 V = eyePos - v_worldPos;
+	V = normalize(V);
 
-	vec4 tmp = texture2D(shadowbuffer, pw.xy);
-	float z2 = tmp.r;
+	vec3 L = lightPos.xyz - v_worldPos;
+	L = normalize(L);
 
-	z2 = hitheryon[0] + z2 * hitheryon[2];
+	vec4 tmp = vec4(v_worldPos,1.0) * viewMatrix;
+	float z1 = tmp.z;
+	z1 = -z1;
+	z1 = (z1-hitheryon[0]) / hitheryon[2];
+	z1 *= scaleFactor;
 
-	float shadowfactor = 1.0;
+	tmp = tmp*projMatrix;
+	tmp.xy /= tmp.w;
+	tmp.xy = 0.5*(tmp.xy + vec2(1.0));
 
-	if(z1 > z2+bias || pw.z < 0.5 || any( lessThan(pw.xy, vec2(0.0,0.0))) || any (greaterThan(pw.xy,vec2(1.0,1.0)))) {
-		//In shadow
-		shadowfactor = 0.2;
-	}
+	float z2 = texture2D(shadowbuffer, tmp.xy).r;
+	z2 = abs(z2);
 
-	float dp = clamp( dot(L, N), 0.0, 1.0);
-	vec4 texc = texture2D(tex, v_texcoord.st);
-	color.rgb = shadowfactor * dp * texc.rgb;// + !!!.rgb;
-	color.a = 1.0;
+	float c = magicConst;
+	float litpct;
+	litpct = exp(c*(z2-z1));
+	litpct = clamp(litpct,0.0,1.0);
 
+	float diffuseProduct = clamp( dot(L,N), 0.0, 1.0);
+	vec4 diffuse = texture2D(tex,v_texcoord);
+	diffuse *= litpct*lightColor;
+
+	
+	color = diffuse;
 
 }

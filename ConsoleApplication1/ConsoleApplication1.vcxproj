@@ -353,6 +353,8 @@
     <Text Include="ppfs.txt" />
     <Text Include="ppvs.txt" />
     <Text Include="fss.txt" />
+    <Text Include="sbfs.txt" />
+    <Text Include="sbvs.txt" />
     <Text Include="shadowfs.txt" />
     <Text Include="shadowvs.txt" />
     <Text Include="vs.txt" />
