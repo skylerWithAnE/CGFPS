@@ -29,6 +29,20 @@ class Camera{
         this->compute_view_matrix();
     }
 
+	Camera(float h, float y, vec4 e) {
+		fov_h = 45;
+		hither = h;
+		yon = y;
+		aspect_ratio = 1.0f;
+		fov_v = 1.0f / aspect_ratio*fov_h;
+		eye = e;
+		U = vec4(1, 0, 0, 0);
+		V = vec4(0, 1, 0, 0);
+		W = vec4(0, 0, 1, 0);
+		this->compute_proj_matrix();
+		this->compute_view_matrix();
+	}
+
     void compute_proj_matrix(){
         this->projmatrix = mat4( 
             1/tan(radians(this->fov_h)),0,0,0,

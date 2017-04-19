@@ -8,7 +8,6 @@ out vec4 color;
 
 uniform vec4 lightPos;
 uniform vec4 lightColor;
-uniform vec4 lightDir;
 uniform vec3 eyePos;
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;

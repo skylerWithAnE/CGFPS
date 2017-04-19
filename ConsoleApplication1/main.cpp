@@ -102,6 +102,7 @@ int main(int argc, char* argv[])
     //view camera
     Camera* cam = new Camera();
     cam->look_at(vec3(5,1,5), vec3(10,1,10), vec3(0,1,0) );
+	Camera* lcam = new Camera(0.01f, 50.f, cam->eye);
 
     //tells which keys are currently down
     set<int> keys;
@@ -115,7 +116,8 @@ int main(int argc, char* argv[])
     glClearColor(0.2f,0.4f,0.6f,1.0f);
     glEnable(GL_DEPTH_TEST);
 
-
+	bool shadow_buffer_debug = false;
+	float sbdcd = 1.f;
     while(1){
         //pump the event queue...
         while(1){
@@ -150,9 +152,12 @@ int main(int argc, char* argv[])
             }
         }
         
+		
         int now = SDL_GetTicks();
         float elapsed = (float)(now-last);
         last=now;
+		sbdcd += elapsed;
+		cout << elapsed << endl;
         
         if(keys.find(SDLK_w) != keys.end() )
             cam->walk(0.002f*elapsed);
@@ -170,36 +175,49 @@ int main(int argc, char* argv[])
             cam->strafe(0,0.01f*elapsed,0);
         if(keys.find(SDLK_k) != keys.end() )
             cam->strafe(0,-0.01f*elapsed,0);
+		if (keys.find(SDLK_SLASH) != keys.end()) {
+			if (sbdcd > 200.f) {
+				shadow_buffer_debug = !shadow_buffer_debug;
+				sbdcd = 0.f;
+			}
+			
+		}
+		
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Shadow buffer
 		sbprog->use();
-		shadowbuffer->bind();
+		if(!shadow_buffer_debug)
+			shadowbuffer->bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		sbprog->setUniform("viewMatrix", cam->viewmatrix);
-		sbprog->setUniform("projMatrix", cam->projmatrix);
-		vec3 hyymh = vec3(cam->hither, cam->yon, cam->yon - cam->hither);
+		lcam->eye = cam->eye + vec4(0.1f, -0.4f, 0.3f, 0.f);
+		lcam->compute_view_matrix();
+		sbprog->setUniform("viewMatrix", lcam->viewmatrix);
+		sbprog->setUniform("projMatrix", lcam->projmatrix);
+		vec3 hyymh = vec3(lcam->hither, lcam->yon, lcam->yon - lcam->hither);
 		sbprog->setUniform("hitheryon", hyymh);
 		cam->draw(sbprog);
 		world->draw(sbprog);
 		world->robotDraw(sbprog);
-		
-		shadowbuffer->unbind();
+		if (!shadow_buffer_debug)
+			shadowbuffer->unbind();
 
 		//Draw with shadow buffer.
-		shadowprog->use();
-		shadowprog->setUniform("lightPos", cam->eye);
-		shadowprog->setUniform("lightColor", vec4(1.f, 1.f, 1.f, 1.f));
-		shadowprog->setUniform("hitheryon", hyymh);
-		shadowprog->setUniform("shadowbuffer", shadowbuffer->texture);
-		shadowprog->setUniform("lightDir", (-1 * cam->W));
-		shadowprog->setUniform("magicConst", 15.0f);
-		shadowprog->setUniform("scaleFactor", 5.0f);
-		cam->draw(shadowprog);
-		world->draw(shadowprog);
-		world->robotDraw(shadowprog);
+
+		if (!shadow_buffer_debug) {
+			shadowprog->use();
+			shadowprog->setUniform("lightPos", lcam->eye);
+			shadowprog->setUniform("lightColor", vec4(1.f, 1.f, 1.f, 1.f));
+			shadowprog->setUniform("hitheryon", hyymh);
+			shadowprog->setUniform("shadowbuffer", shadowbuffer->texture);
+			shadowprog->setUniform("lightDir", (-1 * lcam->W));
+			shadowprog->setUniform("magicConst", 15.0f);
+			shadowprog->setUniform("scaleFactor", 5.0f);
+			cam->draw(shadowprog);
+			world->draw(shadowprog);
+			world->robotDraw(shadowprog);
+		}
 
 
 
