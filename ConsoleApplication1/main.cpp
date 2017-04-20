@@ -104,8 +104,8 @@ int main(int argc, char* argv[])
     cam->look_at(vec3(5,1,5), vec3(10,1,10), vec3(0,1,0) );
 	Camera* lightCamera = new Camera();
 	//cam->hither = 0.01f;
-	//lightCamera->yon = 50.f;
-	lightCamera->look_at(vec3(5.3, 0.6f, 5.3), vec3(10, 1, 10), vec3(0, 1, 0));
+	lightCamera->yon = 50.f;
+	lightCamera->look_at(vec3(5,1,5), vec3(10, 1, 10), vec3(0, 1, 0));
 	
 
 
@@ -143,6 +143,9 @@ int main(int argc, char* argv[])
 			}
 			else if (ev.type == SDL_KEYUP) {
 				int k = ev.key.keysym.sym;
+				if (k == SDLK_SPACE) {
+					lightCamera->look_at(cam->eye.xyz(), cam->eye.xyz()+(-1*cam->W.xyz()), cam->V.xyz());
+				}
 				keys.erase(k);
 			}
 			else if (ev.type == SDL_MOUSEBUTTONDOWN) {
@@ -159,8 +162,10 @@ int main(int argc, char* argv[])
 
 				cam->turn(-0.01f*dx);
 				cam->tilt(-0.01f*dy);
-				lightCamera->turn(-0.01f*dx);
-				lightCamera->tilt(-0.01f*dy);
+				if (shadow_buffer_debug) {
+					lightCamera->turn(-0.01f*dx);
+					lightCamera->tilt(-0.01f*dy);
+				}
 			}
 		}
 
@@ -172,35 +177,35 @@ int main(int argc, char* argv[])
 
 		if (keys.find(SDLK_w) != keys.end()) {
 			cam->walk(0.002f*elapsed);
-			lightCamera->walk(0.002f*elapsed);
+			//lightCamera->walk(0.002f*elapsed);
 		}
 		if (keys.find(SDLK_s) != keys.end()) {
 			cam->walk(-0.002f*elapsed);
-			lightCamera->walk(-0.002f*elapsed);
+			//lightCamera->walk(-0.002f*elapsed);
 		}
 		if (keys.find(SDLK_j) != keys.end()) {
 			cam->turn(0.001f*elapsed);
-			lightCamera->turn(0.001f*elapsed);
+			//lightCamera->turn(0.001f*elapsed);
 		}
 		if (keys.find(SDLK_l) != keys.end()) {
 			cam->turn(-0.001f*elapsed);
-			lightCamera->turn(-0.001f*elapsed);
+			//lightCamera->turn(-0.001f*elapsed);
 		}
 		if (keys.find(SDLK_a) != keys.end()) {
 			cam->strafe(-0.002f*elapsed, 0, 0);
-			lightCamera->strafe(-0.002f*elapsed, 0, 0);
+			//lightCamera->strafe(-0.002f*elapsed, 0, 0);
 		}
 		if (keys.find(SDLK_d) != keys.end()) {
 			cam->strafe(0.002f*elapsed, 0, 0);
-			lightCamera->strafe(0.002f*elapsed, 0, 0);
+			//lightCamera->strafe(0.002f*elapsed, 0, 0);
 		}
 		if (keys.find(SDLK_i) != keys.end()) {
 			cam->strafe(0, 0.01f*elapsed, 0);
-			lightCamera->strafe(0, 0.01f*elapsed, 0);
+			//lightCamera->strafe(0, 0.01f*elapsed, 0);
 		}
 		if (keys.find(SDLK_k) != keys.end()) {
 			cam->strafe(0, -0.01f*elapsed, 0);
-			lightCamera->strafe(0, -0.01f*elapsed, 0);
+			//lightCamera->strafe(0, -0.01f*elapsed, 0);
 		}
 		if (keys.find(SDLK_SLASH) != keys.end()) {
 			if (sbdcd > 200.f) {
