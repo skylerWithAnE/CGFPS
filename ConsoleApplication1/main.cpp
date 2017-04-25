@@ -217,15 +217,15 @@ int main(int argc, char* argv[])
 		
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		//Shadow buffer
 		sbprog->use();
 		if(!shadow_buffer_debug)
 			shadowbuffer->bind();
-		//glClearColor(1.f, 1.f, 1.f, 1.f); 
+		glClearColor(1.f, 1.f, 1.f, 1.f); 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		vec3 hyymh = vec3(lightCamera->hither, lightCamera->yon, lightCamera->yon - lightCamera->hither);
 		sbprog->setUniform("hitheryon", hyymh);
+		//cout << hyymh.x <<" "<< hyymh.y << " " << hyymh.z << " " << endl;
 		lightCamera->draw(sbprog);
 		world->draw(sbprog);
 		world->robotDraw(sbprog);
@@ -247,6 +247,7 @@ int main(int argc, char* argv[])
 			cam->draw(shadowprog);
 			world->draw(shadowprog);
 			world->robotDraw(shadowprog);
+			shadowbuffer->texture->unbind();
 		}
 
 

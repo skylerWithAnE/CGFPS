@@ -70,8 +70,8 @@ public:
 	}
 
 	void draw(Program* prog) {
-		SolidTexture* black = new SolidTexture(0, 0, 0, 1);
-		prog->setUniform("etex", black);
+		
+		//prog->setUniform("etex", black);
 		////FIXME: We could make this more efficient by building one big mesh...
 		prog->setUniform("roughness", 1.0f);
 		prog->setUniform("tex", ceiltex);
