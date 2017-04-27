@@ -33,22 +33,107 @@ uniform sampler2D stex;
 
 
 void main() {
-	vec3 N = normalize(v_normal.xyz);
-	vec3 L = lightPos.xyz - v_worldPos.xyz;
-	L = normalize(L);
+	
+
+	//color = texelFetch(shadowbuffer, ivec2(gl_FragCoord.xy),0);
+	//return;
 	vec4 pe = vec4(v_worldPos,1.0) * lightViewMatrix;	//point in eye space
-	vec4 ps = vec4(v_worldPos,1.0) * lightProjMatrix;	//point in screen space
-	ps.xy /= ps.w;
-	ps.xy = 0.5*(ps.xy + 1.0);
+	vec4 ps = pe * lightProjMatrix;	//point in screen space
+	ps /= ps.w;
+	ps = 0.5*(ps + 1.0);
 
-	//float t = texture2D(shadowbuffer, ps.xy).r;
+	float t = texture2D(shadowbuffer, ps.xy).r;
 
-	//if (-pe.z < 0 || -pe.z > t+0.005) {
-		//color = vec4(0,0,0,1)
+	//bvec2 a = lessThan(t.xy, vec2(0,0));
+	//bvec2 b = greaterThan(t.xy, vec2(1.0,1.0));
+
+	//seperate "in light" check
+	//float 
+	//if(any(a) || any(b)) {
 	//}
-	//else {
-		//color = vec4(1,0,1,1);
-//	}
+
+
+	t = hitheryon[0] + t * (hitheryon[1]-hitheryon[0]);
+	float litpct;
+	if (-pe.z < 0 || -pe.z > t+0.005) {
+		//in shadow
+		color = vec4(1,0,0,1);
+		return;
+	}
+	else {
+		//not in shadow.
+		litpct = 1.0;
+	}
+	
+	color = texture2D(tex, v_texcoord) * litpct;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	//vec3 N = normalize(v_normal);
 	//vec3 V = eyePos - v_worldPos;
@@ -57,27 +142,25 @@ void main() {
 	//vec3 L = lightPos.xyz - v_worldPos;
 	//L = normalize(L);
 
-	vec4 tmp = vec4(v_worldPos,1.0) * lightViewMatrix;
-	float z1 = pe.z;
-	z1 = -z1;
-	z1 = (z1-hitheryon[0]) / hitheryon[2];
-	z1 *= scaleFactor;
+	//vec4 tmp = vec4(v_worldPos,1.0) * lightViewMatrix;
+	//float z1 = tmp.z;
+	//z1 = -z1;
+	//z1 = (z1-hitheryon[0]) / hitheryon[2];
+	//z1 *= scaleFactor;
 
-	tmp = tmp*lightProjMatrix;
-	tmp.xy /= tmp.w;
-	tmp.xy = 0.5*(tmp.xy + vec2(1.0));
+	//tmp = tmp*lightProjMatrix;
+	//tmp.xy /= tmp.w;
+	//tmp.xy = 0.5*(tmp.xy + vec2(1.0));
 
-	float z2 = texture2D(shadowbuffer, tmp.xy).r;
-	z2 = abs(z2);
+	//float z2 = texture2D(shadowbuffer, tmp.xy).r;
+	//z2 = abs(z2);
 
-	float c = magicConst;
-	float litpct;
-	litpct = exp(c*(z2-z1));
-	litpct = clamp(litpct,0.0,1.0);
+	//float c = magicConst;
+	//float litpct;
+	//litpct = exp(c*(z2-z1));
+	//litpct = clamp(litpct,0.0,1.0);
 
-	float diffuseProduct = clamp( dot(L,N), 0.0, 1.0);
-	vec4 diffuse = litpct * diffuseProduct * lightColor;
-	vec4 texc = texture2D(tex, v_texcoord);
-	color = diffuse * texc;
-
-}
+	//float diffuseProduct = clamp( dot(L,N), 0.0, 1.0);
+	//vec4 diffuse = litpct * diffuseProduct * lightColor;
+	//vec4 texc = texture2D(tex, v_texcoord);
+	//color = diffuse * texc;
