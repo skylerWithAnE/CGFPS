@@ -44,14 +44,6 @@ void main() {
 
 	float t = texture2D(shadowbuffer, ps.xy).r;
 
-	//bvec2 a = lessThan(t.xy, vec2(0,0));
-	//bvec2 b = greaterThan(t.xy, vec2(1.0,1.0));
-
-	//seperate "in light" check
-	//float 
-	//if(any(a) || any(b)) {
-	//}
-
 
 	t = hitheryon[0] + t * (hitheryon[1]-hitheryon[0]);
 	float litpct;

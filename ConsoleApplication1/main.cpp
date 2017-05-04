@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 	Program* specprog = new Program("vss.txt", "fss.txt", { "color" });
 	Program* boneprog = new Program("bonevs.txt", "bonefs.txt", { "color" });
 	Program* sbprog = new Program("sbvs.txt", "sbfs.txt", {});
-	Program* shadowprog = new Program("shadowvs.txt", "shadowfs.txt", {"color"});
+	//Program* shadowprog = new Program("shadowvs.txt", "shadowfs.txt", {"color"});
 
     //view camera
     Camera* cam = new Camera();
@@ -214,6 +214,23 @@ int main(int argc, char* argv[])
 			}
 			
 		}
+
+		fbo1->bind();
+
+
+
+
+
+		//***BLUR DISABLED atm
+		fbo1->unbind();
+
+		postprocprog->use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		postprocprog->setUniform("tex", fbo1->texture);
+		postprocprog->setUniform("numOfIterations", 2);
+		usq->draw(postprocprog);
+
+		fbo1->texture->unbind();
 		
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -235,50 +252,35 @@ int main(int argc, char* argv[])
 		//Draw with shadow buffer.
 
 		if (!shadow_buffer_debug) {
-			shadowprog->use();
-			shadowprog->setUniform("lightPos", lightCamera->eye);
-			shadowprog->setUniform("lightColor", vec4(1.f, 1.f, 1.f, 1.f));
-			shadowprog->setUniform("lightViewMatrix", lightCamera->viewmatrix);
-			shadowprog->setUniform("lightProjMatrix", lightCamera->projmatrix);
-			shadowprog->setUniform("hitheryon", hyymh);
-			shadowprog->setUniform("shadowbuffer", shadowbuffer->texture);
-			shadowprog->setUniform("magicConst", 15.0f);
-			shadowprog->setUniform("scaleFactor", 5.0f);
-			cam->draw(shadowprog);
-			world->draw(shadowprog);
-			world->robotDraw(shadowprog);
+			prog->use();
+			prog->setUniform("lightPos", vec3(lightCamera->eye.x, lightCamera->eye.y, lightCamera->eye.z));
+			prog->setUniform("lightColor", vec4(1.f, 1.f, 1.f, 1.f));
+			prog->setUniform("lightViewMatrix", lightCamera->viewmatrix);
+			prog->setUniform("lightProjMatrix", lightCamera->projmatrix);
+			prog->setUniform("hitheryon", hyymh);
+			prog->setUniform("shadowbuffer", shadowbuffer->texture);
+			prog->setUniform("magicConst", 15.0f);
+			prog->setUniform("scaleFactor", 5.0f);
+			cam->draw(prog);
+			world->draw(prog);
+			world->robotDraw(prog);
 			shadowbuffer->texture->unbind();
 		}
 
+		boneprog->use();
+		boneprog->setUniform("lightPos", cam->eye.xyz());
+		boneprog->setUniform("roughness", 0.f);
+		cam->draw(boneprog);
+		world->robotUpdate(elapsed);
+		world->robotDraw(boneprog);
 
 
-		//fbo1->bind();
-        
-		
-		//boneprog->use();
-		//boneprog->setUniform("lightPos", cam->eye.xyz());
-		//boneprog->setUniform("roughness", 0.f);
-		//cam->draw(boneprog);
-		//world->robotUpdate(elapsed);
-		//world->robotDraw(boneprog);
-		//
-
-  //      prog->use();
-  //      cam->draw(prog);
-  //      prog->setUniform("lightPos",cam->eye.xyz());
-  //      world->draw(prog);
+		prog->use();
+		cam->draw(prog);
+		prog->setUniform("lightPos", cam->eye.xyz());
+		world->draw(prog);
 
 
-		//***BLUR DISABLED atm
-		//fbo1->unbind();
-
-		//postprocprog->use();
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//postprocprog->setUniform("tex", fbo1->texture);
-		//postprocprog->setUniform("numOfIterations", 2);
-		//usq->draw(postprocprog);
-
-		//fbo1->texture->unbind();
 
 		GLenum err = glGetError();
 		while (err != GL_NO_ERROR) {

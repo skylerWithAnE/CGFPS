@@ -8,6 +8,12 @@ uniform vec3 lightPos;
 uniform vec3 eyePos;
 uniform float roughness;
 
+uniform vec4 lightColor;
+uniform mat4 lightViewMatrix;
+uniform mat4 lightProjMatrix;
+uniform vec3 hitheryon;
+uniform sampler2D shadowbuffer;
+
 in vec2 v_texcoord;
 in vec3 v_normal;
 in vec3 v_tangent;
@@ -84,6 +90,22 @@ void main(){
 	float A = clamp(2.0*cos_d[0]*min(cos_a[0], cos_b[0])/cos_c[0], 0.0, 1.0);
 	specular = vec3(M)*F*vec3(A)/(cos_a*cos_b*vec3(3.14159265358979323));
     specular *= sign(dp);
+
+	vec4 pe = vec4(v_worldPos,1.0) * lightViewMatrix;	//point in eye space
+	vec4 ps = pe * lightProjMatrix;	//point in screen space
+	ps /= ps.w;
+	ps = 0.5*(ps + 1.0);
+
+	float sht = texture2D(shadowbuffer, ps.xy).r;
+
+
+	sht = hitheryon[0] + sht * (hitheryon[1]-hitheryon[0]);
+	float litpct;
+	if (-pe.z < 0 || -pe.z > sht+0.005) {
+		//in shadow
+		color = vec4(0,0,0,1);
+		return;
+	}
     
     //color.rgb = newNormal;
 	color = texture(tex,v_texcoord);

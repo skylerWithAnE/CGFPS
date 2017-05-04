@@ -112,6 +112,7 @@ public:
 
 	void robotDraw(Program* prog) {
 		prog->setUniform("ntex", this->bricks_n);
+		cout << currFrame << endl;
 		prog->setUniform("frame", currFrame);
 		for (auto R : robots) {
 			R->draw(prog);
@@ -119,11 +120,11 @@ public:
 	}
 
 	void robotUpdate(int elapsed) {
-		/*currFrame += 0.8f;
+		currFrame += 0.8f;
 		if (currFrame > 40.f)
 			currFrame = 0.f;
 		for (auto R : robots) {
-			R->update(elapsed);*/
-		//}
+			R->update(elapsed);
+		}
 	}
 };
